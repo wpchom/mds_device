@@ -1,5 +1,4 @@
 pkggroup("mds_kernel") {
-  deps = [ ":kernel" ]
 }
 
 config("mds_device_config") {
@@ -7,9 +6,7 @@ config("mds_device_config") {
 }
 
 source_set("mds_device") {
-  sources = [ "src/mds_dev.c" ]
-
-  sources += [
+  sources = [
     "src/dev_adc.c",
     "src/dev_gpio.c",
     "src/dev_i2c.c",

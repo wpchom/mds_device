@@ -1,3 +1,5 @@
+add_requires("mds_kernel")
+
 target("mds_device", function()
 
     set_kind("static")
@@ -6,12 +8,9 @@ target("mds_device", function()
 
     add_files("src/**.c")
 
-    add_includedirs("inc", {
-        public = true
-    })
+    add_includedirs("inc")
 
     add_headerfiles("inc/(**.h)", {
-        -- prefixdir = "include",
         -- install = false
     })
 
