@@ -85,14 +85,24 @@ void DEV_GPIO_PinInterruptCallback(DEV_GPIO_Pin_t *pin, void (*callback)(DEV_GPI
     pin->arg = arg;
 }
 
-MDS_Mask_t DEV_GPIO_PinRead(const DEV_GPIO_Pin_t *pin)
+MDS_Mask_t DEV_GPIO_PinReadInput(const DEV_GPIO_Pin_t *pin)
 {
     MDS_ASSERT(pin != NULL);
     MDS_ASSERT(pin->mount != NULL);
     MDS_ASSERT(pin->mount->driver != NULL);
     MDS_ASSERT(pin->mount->driver->read != NULL);
 
-    return (pin->mount->driver->read(pin));
+    return (pin->mount->driver->read(pin, true));
+}
+
+MDS_Mask_t DEV_GPIO_PinReadOutput(const DEV_GPIO_Pin_t *pin)
+{
+    MDS_ASSERT(pin != NULL);
+    MDS_ASSERT(pin->mount != NULL);
+    MDS_ASSERT(pin->mount->driver != NULL);
+    MDS_ASSERT(pin->mount->driver->read != NULL);
+
+    return (pin->mount->driver->read(pin, false));
 }
 
 void DEV_GPIO_PinWrite(DEV_GPIO_Pin_t *pin, MDS_Mask_t val)

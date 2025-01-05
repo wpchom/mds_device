@@ -63,7 +63,7 @@ typedef struct DEV_GPIO_Pin DEV_GPIO_Pin_t;
 typedef struct DEV_GPIO_Driver {
     MDS_Err_t (*control)(const DEV_GPIO_Module_t *gpio, MDS_Item_t cmd, MDS_Arg_t *arg);
     MDS_Err_t (*config)(const DEV_GPIO_Pin_t *pin, const DEV_GPIO_Config_t *config);
-    MDS_Mask_t (*read)(const DEV_GPIO_Pin_t *pin);
+    MDS_Mask_t (*read)(const DEV_GPIO_Pin_t *pin, bool input);
     void (*write)(const DEV_GPIO_Pin_t *pin, MDS_Mask_t val);
 } DEV_GPIO_Driver_t;
 
@@ -107,7 +107,8 @@ extern MDS_Err_t DEV_GPIO_PinDestroy(DEV_GPIO_Pin_t *pin);
 extern MDS_Err_t DEV_GPIO_PinConfig(DEV_GPIO_Pin_t *pin, const DEV_GPIO_Config_t *config);
 extern void DEV_GPIO_PinInterruptCallback(DEV_GPIO_Pin_t *pin, void (*callback)(DEV_GPIO_Pin_t *, MDS_Arg_t *),
                                           MDS_Arg_t *arg);
-extern MDS_Mask_t DEV_GPIO_PinRead(const DEV_GPIO_Pin_t *pin);
+extern MDS_Mask_t DEV_GPIO_PinReadInput(const DEV_GPIO_Pin_t *pin);
+extern MDS_Mask_t DEV_GPIO_PinReadOutput(const DEV_GPIO_Pin_t *pin);
 extern void DEV_GPIO_PinWrite(DEV_GPIO_Pin_t *pin, MDS_Mask_t val);
 extern void DEV_GPIO_PinToggle(DEV_GPIO_Pin_t *pin);
 extern void DEV_GPIO_PinLow(DEV_GPIO_Pin_t *pin);
