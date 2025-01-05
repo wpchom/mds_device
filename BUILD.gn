@@ -5,7 +5,7 @@ config("mds_device_config") {
   include_dirs = [ "inc" ]
 }
 
-source_set("mds_device") {
+static_library("mds_device") {
   sources = [
     "src/dev_adc.c",
     "src/dev_gpio.c",
