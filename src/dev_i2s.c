@@ -107,7 +107,7 @@ MDS_Err_t DEV_I2S_PeriphTransmit(DEV_I2S_Periph_t *periph, const uint8_t *buff, 
     }
 
     MDS_Tick_t optick = (periph->object.optick > 0) ? (periph->object.optick)
-                                                    : (size / ((periph->object.audioFreq >> 0x0E) + 0x01));
+                                                    : (size / ((periph->config.audioFreq >> 0x0E) + 0x01));
     err = i2s->driver->transmit(periph, buff, size, optick);
 
     return (err);

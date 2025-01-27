@@ -44,11 +44,14 @@ typedef enum DEV_I2C_DevAddrBits {
     DEV_I2C_DEVADDRBITS_10 = 10,
 } DEV_I2C_DevAddrBits_t;
 
-typedef struct DEV_I2C_Object {
-    MDS_Tick_t optick;
+typedef struct DEV_I2C_Config {
     uint32_t clock;
     uint16_t devAddress;
     DEV_I2C_DevAddrBits_t devAddrBit : 8;
+} DEV_I2C_Config_t;
+
+typedef struct DEV_I2C_Object {
+    MDS_Tick_t optick;
     uint8_t retry;
 } DEV_I2C_Object_t;
 
@@ -74,6 +77,7 @@ struct DEV_I2C_Periph {
     const DEV_I2C_Adaptr_t *mount;
 
     DEV_I2C_Object_t object;
+    DEV_I2C_Config_t config;
 
     void (*callback)(DEV_I2C_Periph_t *periph, MDS_Arg_t *arg, MDS_Mask_t flag);
     MDS_Arg_t *arg;

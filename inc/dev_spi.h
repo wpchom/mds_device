@@ -59,15 +59,18 @@ typedef enum DEV_SPI_BusCS {
     DEV_SPI_BUSCS_HIGH,
 } DEV_SPI_BusCS_t;
 
+typedef struct DEV_SPI_Config {
+    uint32_t clock;  // Hz
+    DEV_SPI_BusMode_t busMode   : 8;
+    DEV_SPI_ClkMode_t clkMode   : 8;
+    DEV_SPI_FirstBit_t firstBit : 8;
+    DEV_SPI_DataBits_t dataBits : 8;
+} DEV_SPI_Config_t;
+
 typedef struct DEV_SPI_Object {
     MDS_Tick_t optick;
     DEV_GPIO_Pin_t *nss;
-    uint32_t clock;  // Hz
-    DEV_SPI_BusCS_t busCS       : 4;
-    DEV_SPI_BusMode_t busMode   : 4;
-    DEV_SPI_ClkMode_t clkMode   : 4;
-    DEV_SPI_FirstBit_t firstBit : 4;
-    DEV_SPI_DataBits_t dataBits : 8;
+    DEV_SPI_BusCS_t busCS : 8;
     uint8_t retry;
 } DEV_SPI_Object_t;
 
@@ -93,6 +96,7 @@ struct DEV_SPI_Periph {
     const DEV_SPI_Adaptr_t *mount;
 
     DEV_SPI_Object_t object;
+    DEV_SPI_Config_t config;
 
     void (*callback)(DEV_SPI_Periph_t *periph, MDS_Arg_t *arg, const uint8_t *tx, uint8_t *rx, size_t size,
                      size_t trans);

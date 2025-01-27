@@ -34,12 +34,15 @@ typedef enum DEV_ADC_InputMode {
     DEV_ADC_INPUTMODE_DIFF,
 } DEV_ADC_InputMode_t;
 
+typedef struct DEV_ADC_Config {
+    DEV_ADC_Resolution_t resolution : 8;
+    DEV_ADC_InputMode_t inputMode   : 8;
+    uint32_t samptime;
+} DEV_ADC_Config_t;
+
 typedef struct DEV_ADC_Object {
     uint32_t channelP;
     uint32_t channelN;
-    uint32_t samptime;
-    DEV_ADC_Resolution_t resolution : 8;
-    DEV_ADC_InputMode_t inputMode   : 8;
     uint16_t averages;
 } DEV_ADC_Object_t;
 
@@ -66,6 +69,7 @@ struct DEV_ADC_Periph {
     const DEV_ADC_Adaptr_t *mount;
 
     DEV_ADC_Object_t object;
+    DEV_ADC_Config_t config;
 };
 
 /* Function ---------------------------------------------------------------- */

@@ -67,14 +67,17 @@ typedef enum DEV_UART_HwFlowCtl {
     DEV_UART_HWFLOWCTL_RTS_CTS,
 } DEV_UART_HwFlowCtl_t;
 
-typedef struct DEV_UART_Object {
-    MDS_Tick_t optick;  // transmit
+typedef struct DEV_UART_Config {
     uint32_t baudrate;
     DEV_UART_DataBits_t databits   : 4;
     DEV_UART_StopBits_t stopbits   : 4;
     DEV_UART_Direct_t direct       : 4;
     DEV_UART_Parity_t parity       : 2;
     DEV_UART_HwFlowCtl_t hwFlowCtl : 2;
+} DEV_UART_Config_t;
+
+typedef struct DEV_UART_Object {
+    MDS_Tick_t timeout;  // transmit
 } DEV_UART_Object_t;
 
 enum DEV_UART_Cmd {
@@ -103,9 +106,10 @@ struct DEV_UART_Periph {
     const DEV_UART_Adaptr_t *mount;
 
     DEV_UART_Object_t object;
+    DEV_UART_Config_t config;
 
-    void (*callback)(DEV_UART_Periph_t *periph, MDS_Arg_t *arg, uint8_t *buff, size_t size, size_t recv);
-    MDS_Arg_t *arg;
+    void (*rxCallback)(DEV_UART_Periph_t *periph, MDS_Arg_t *arg, uint8_t *buff, size_t size, size_t recv);
+    MDS_Arg_t *rxArg;
 };
 
 /* Function ---------------------------------------------------------------- */

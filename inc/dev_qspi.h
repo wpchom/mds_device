@@ -34,11 +34,15 @@ typedef enum DEV_QSPI_BusCS {
     DEV_QSPI_BUSCS_NO,
 } DEV_QSPI_BusCS_t;
 
-typedef struct DEV_QSPI_Object {
-    DEV_GPIO_Pin_t *cs;
+typedef struct DEV_QSPI_Config {
     uint32_t clock;  // Hz
-    DEV_QSPI_BusCS_t busCS       : 8;
     DEV_QSPI_ClockMode_t clkMode : 8;
+} DEV_QSPI_Config_t;
+
+typedef struct DEV_QSPI_Object {
+    MDS_Tick_t timeout;
+    DEV_GPIO_Pin_t *cs;
+    DEV_QSPI_BusCS_t busCS : 8;
 } DEV_QSPI_Object_t;
 
 typedef enum DEV_QSPI_CmdLine {
@@ -126,6 +130,7 @@ struct DEV_QSPI_Periph {
     const DEV_QSPI_Adaptr_t *mount;
 
     DEV_QSPI_Object_t object;
+    DEV_QSPI_Config_t config;
 
     void (*callback)(DEV_QSPI_Periph_t *periph, MDS_Arg_t *arg, const uint8_t *tx, uint8_t *rx, size_t size,
                      size_t trans);

@@ -26,9 +26,10 @@ typedef struct DEV_STORAGE_Periph DEV_STORAGE_Periph_t;
 typedef struct DEV_STORAGE_Driver {
     MDS_Err_t (*control)(const DEV_STORAGE_Adaptr_t *storage, MDS_Item_t cmd, MDS_Arg_t *arg);
     size_t (*blksize)(const DEV_STORAGE_Adaptr_t *storage, size_t blk);
-    MDS_Err_t (*read)(const DEV_STORAGE_Periph_t *periph, size_t blk, uintptr_t ofs, uint8_t *buff, size_t len);
-    MDS_Err_t (*prog)(const DEV_STORAGE_Periph_t *periph, size_t blk, uintptr_t ofs, const uint8_t *buff, size_t len);
-    MDS_Err_t (*erase)(const DEV_STORAGE_Periph_t *periph, size_t blk, size_t nums);
+    MDS_Err_t (*read)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uint8_t *buff, size_t len, size_t *read);
+    MDS_Err_t (*prog)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff, size_t len,
+                      size_t *write);
+    MDS_Err_t (*erase)(const DEV_STORAGE_Periph_t *periph, size_t blk, size_t nums, size_t *erase);
 } DEV_STORAGE_Driver_t;
 
 struct DEV_STORAGE_Adaptr {
@@ -40,7 +41,7 @@ struct DEV_STORAGE_Adaptr {
 };
 
 typedef struct DEV_STORAGE_Object {
-    size_t blockBase;
+    uintptr_t baseAddr;
     size_t blockNums;
 } DEV_STORAGE_Object_t;
 
@@ -72,11 +73,11 @@ extern MDS_Err_t DEV_STORAGE_PeriphClose(DEV_STORAGE_Periph_t *periph);
 extern size_t DEV_STORAGE_PeriphBlockNums(DEV_STORAGE_Periph_t *periph);
 extern size_t DEV_STORAGE_PeriphBlockSize(DEV_STORAGE_Periph_t *periph, size_t block);
 extern size_t DEV_STORAGE_PeriphTotalSize(DEV_STORAGE_Periph_t *periph);
-extern MDS_Err_t DEV_STORAGE_PeriphRead(DEV_STORAGE_Periph_t *periph, size_t block, uintptr_t ofs, uint8_t *buff,
-                                        size_t len);
-extern MDS_Err_t DEV_STORAGE_PeriphProgram(DEV_STORAGE_Periph_t *periph, size_t block, uintptr_t ofs,
-                                           const uint8_t *buff, size_t len);
-extern MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, size_t block, size_t nums);
+extern MDS_Err_t DEV_STORAGE_PeriphRead(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uint8_t *buff, size_t len,
+                                        size_t *read);
+extern MDS_Err_t DEV_STORAGE_PeriphProgram(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff, size_t len,
+                                           size_t *write);
+extern MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, size_t block, size_t nums, size_t *erase);
 
 #ifdef __cplusplus
 }

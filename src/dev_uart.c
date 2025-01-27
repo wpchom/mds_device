@@ -78,8 +78,8 @@ void DEV_UART_PeriphRxCallback(DEV_UART_Periph_t *periph,
 {
     MDS_ASSERT(periph != NULL);
 
-    periph->callback = callback;
-    periph->arg = arg;
+    periph->rxCallback = callback;
+    periph->rxArg = arg;
 }
 
 MDS_Err_t DEV_UART_PeriphTransmitMsg(DEV_UART_Periph_t *periph, const MDS_MsgList_t *msg)
@@ -96,19 +96,19 @@ MDS_Err_t DEV_UART_PeriphTransmitMsg(DEV_UART_Periph_t *periph, const MDS_MsgLis
         return (MDS_EIO);
     }
 
-    if ((periph->object.direct & DEV_UART_DIRECT_HALF) != 0U) {
+    if ((periph->config.direct & DEV_UART_DIRECT_HALF) != 0U) {
         MDS_Mask_t dir = DEV_UART_DIRECT_HALF | DEV_UART_DIRECT_TX;
         uart->driver->control(uart, DEV_UART_CMD_DIRECT, (MDS_Arg_t *)(&dir));
     }
     for (const MDS_MsgList_t *cur = msg; cur != NULL; cur = cur->next) {
-        MDS_Tick_t optick = (periph->object.optick > 0) ? (periph->object.optick)
-                                                        : (msg->len / ((periph->object.baudrate >> 0x0E) + 0x01));
+        MDS_Tick_t optick = (periph->object.timeout > 0) ? (periph->object.timeout)
+                                                        : (msg->len / ((periph->config.baudrate >> 0x0E) + 0x01));
         err = uart->driver->transmit(periph, cur->buff, cur->len, optick);
         if (err != MDS_EOK) {
             break;
         }
     }
-    if ((periph->object.direct & DEV_UART_DIRECT_HALF) != 0U) {
+    if ((periph->config.direct & DEV_UART_DIRECT_HALF) != 0U) {
         MDS_Mask_t dir = DEV_UART_DIRECT_HALF | DEV_UART_DIRECT_RX;
         uart->driver->control(uart, DEV_UART_CMD_DIRECT, (MDS_Arg_t *)(&dir));
     }
@@ -140,7 +140,7 @@ MDS_Err_t DEV_UART_PeriphReceive(DEV_UART_Periph_t *periph, uint8_t *buff, size_
         return (MDS_EIO);
     }
 
-    if ((periph->object.direct & DEV_UART_DIRECT_HALF) != 0U) {
+    if ((periph->config.direct & DEV_UART_DIRECT_HALF) != 0U) {
         MDS_Mask_t dir = DEV_UART_DIRECT_HALF | DEV_UART_DIRECT_RX;
         uart->driver->control(uart, DEV_UART_CMD_DIRECT, (MDS_Arg_t *)(&dir));
     }

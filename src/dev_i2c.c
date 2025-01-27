@@ -130,7 +130,7 @@ MDS_Err_t DEV_I2C_PeriphMasterTransfer(DEV_I2C_Periph_t *periph, const DEV_I2C_M
     for (size_t retry = 0; (err != MDS_EOK) && (retry <= periph->object.retry); retry++) {
         for (size_t cnt = 0; cnt < num; cnt++) {
             MDS_Tick_t optick = (periph->object.optick > 0) ? (periph->object.optick)
-                                                            : (msg->len / ((periph->object.clock >> 0x0E) + 0x01));
+                                                            : (msg->len / ((periph->config.clock >> 0x0E) + 0x01));
             err = i2c->driver->master(periph, &(msg[cnt]), optick);
             if (err != MDS_EOK) {
                 break;

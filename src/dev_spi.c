@@ -112,7 +112,7 @@ MDS_Err_t DEV_SPI_PeriphTransferMsg(DEV_SPI_Periph_t *periph, const DEV_SPI_Msg_
         DEV_SPI_PeriphCS(periph, true);
         while (cur != NULL) {
             MDS_Tick_t optick = (periph->object.optick > 0) ? (periph->object.optick)
-                                                            : (cur->size / ((periph->object.clock >> 0x0E) + 0x01));
+                                                            : (cur->size / ((periph->config.clock >> 0x0E) + 0x01));
             err = spi->driver->transfer(periph, cur->tx, cur->rx, cur->size, optick);
             if (err != MDS_EOK) {
                 break;

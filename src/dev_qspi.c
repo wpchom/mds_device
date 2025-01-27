@@ -150,7 +150,7 @@ MDS_Err_t DEV_QSPI_PeriphTransmit(DEV_QSPI_Periph_t *periph, const uint8_t *tx, 
         return (MDS_EIO);
     }
 
-    MDS_Tick_t optick = size / ((periph->object.clock / 0x0E) + 0x01);
+    MDS_Tick_t optick = size / ((periph->config.clock / 0x0E) + 0x01);
 
     MDS_Err_t err = qspi->driver->transmit(periph, tx, size, optick);
 
@@ -170,7 +170,7 @@ MDS_Err_t DEV_QSPI_PeriphReceive(DEV_QSPI_Periph_t *periph, uint8_t *rx, size_t 
         return (MDS_EIO);
     }
 
-    MDS_Tick_t optick = size / ((periph->object.clock / 0x0E) + 0x01);
+    MDS_Tick_t optick = size / ((periph->config.clock / 0x0E) + 0x01);
 
     MDS_Err_t err = qspi->driver->recvice(periph, rx, size, optick);
 
