@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_gpio.h"
-#include "mds_log.h"
 
 /* GPIO module ------------------------------------------------------------- */
 MDS_Err_t DEV_GPIO_ModuleInit(DEV_GPIO_Module_t *gpio, const char *name, const DEV_GPIO_Driver_t *driver,

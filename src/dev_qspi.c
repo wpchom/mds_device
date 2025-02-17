@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_qspi.h"
-#include "mds_log.h"
 
 /* SPI adaptr -------------------------------------------------------------- */
 MDS_Err_t DEV_QSPI_AdaptrInit(DEV_QSPI_Adaptr_t *qspi, const char *name, const DEV_QSPI_Driver_t *driver,

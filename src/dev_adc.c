@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_adc.h"
-#include "mds_log.h"
 
 /* ADC adaptr -------------------------------------------------------------- */
 MDS_Err_t DEV_ADC_AdaptrInit(DEV_ADC_Adaptr_t *adc, const char *name, const DEV_ADC_Driver_t *driver,

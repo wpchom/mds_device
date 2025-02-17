@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "extend/dev_fpga.h"
-#include "mds_log.h"
 
 /* FPGA adaptr ------------------------------------------------------------- */
 MDS_Err_t DEV_FPGA_AdaptrInit(DEV_FPGA_Adaptr_t *fpga, const char *name, const DEV_FPGA_Driver_t *driver,

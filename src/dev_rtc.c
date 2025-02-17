@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_rtc.h"
-#include "mds_log.h"
 
 /* RTC device -------------------------------------------------------------- */
 MDS_Err_t DEV_RTC_DeviceInit(DEV_RTC_Device_t *rtc, const char *name, const DEV_RTC_Driver_t *driver,

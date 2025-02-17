@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "extend/dev_ntc.h"
-#include "mds_log.h"
 
 /* NTC device -------------------------------------------------------------- */
 MDS_Err_t DEV_NTC_DeviceInit(DEV_NTC_Device_t *ntc, const char *name, const DEV_NTC_Driver_t *driver,

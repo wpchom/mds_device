@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_i2c.h"
-#include "mds_log.h"
 
 /* I2C adaptr -------------------------------------------------------------- */
 MDS_Err_t DEV_I2C_AdaptrInit(DEV_I2C_Adaptr_t *i2c, const char *name, const DEV_I2C_Driver_t *driver,

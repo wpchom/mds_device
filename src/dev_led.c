@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_led.h"
-#include "mds_log.h"
 
 /* LED device -------------------------------------------------------------- */
 MDS_Err_t DEV_LED_DeviceInit(DEV_LED_Device_t *led, const char *name, const DEV_LED_Driver_t *driver,

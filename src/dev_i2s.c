@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_i2s.h"
-#include "mds_log.h"
 
 /* I2S adaptr -------------------------------------------------------------- */
 MDS_Err_t DEV_I2S_AdaptrInit(DEV_I2S_Adaptr_t *i2s, const char *name, const DEV_I2S_Driver_t *driver,

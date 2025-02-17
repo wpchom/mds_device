@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_spi.h"
-#include "mds_log.h"
 
 /* SPI adaptr -------------------------------------------------------------- */
 MDS_Err_t DEV_SPI_AdaptrInit(DEV_SPI_Adaptr_t *spi, const char *name, const DEV_SPI_Driver_t *driver,

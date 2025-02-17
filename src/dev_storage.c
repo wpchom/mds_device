@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_storage.h"
-#include "mds_log.h"
 
 /* Storage adaptr ---------------------------------------------------------- */
 MDS_Err_t DEV_STORAGE_AdaptrInit(DEV_STORAGE_Adaptr_t *storage, const char *name, const DEV_STORAGE_Driver_t *driver,

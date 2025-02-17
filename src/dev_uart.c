@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_uart.h"
-#include "mds_log.h"
 
 /* UART adaptr ------------------------------------------------------------- */
 MDS_Err_t DEV_UART_AdaptrInit(DEV_UART_Adaptr_t *uart, const char *name, const DEV_UART_Driver_t *driver,

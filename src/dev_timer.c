@@ -11,7 +11,6 @@
  **/
 /* Include ----------------------------------------------------------------- */
 #include "dev_timer.h"
-#include "mds_log.h"
 
 /* Timer device ------------------------------------------------------------ */
 MDS_Err_t DEV_TIMER_DeviceInit(DEV_TIMER_Device_t *timer, const char *name, const DEV_TIMER_Driver_t *driver,
