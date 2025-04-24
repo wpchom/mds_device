@@ -80,8 +80,8 @@ MDS_Err_t DEV_FPGA_PeriphStart(DEV_FPGA_Periph_t *periph)
 
     const DEV_FPGA_Adaptr_t *fpga = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     return (fpga->driver->start(periph));
@@ -96,8 +96,8 @@ MDS_Err_t DEV_FPGA_PeriphTransmit(DEV_FPGA_Periph_t *periph, const uint8_t *buff
 
     const DEV_FPGA_Adaptr_t *fpga = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     MDS_Tick_t optick = (periph->object.optick > 0) ? (periph->object.optick)
@@ -115,8 +115,8 @@ MDS_Err_t DEV_FPGA_PeriphFinish(DEV_FPGA_Periph_t *periph)
 
     const DEV_FPGA_Adaptr_t *fpga = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     return (fpga->driver->finish(periph));

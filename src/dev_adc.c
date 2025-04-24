@@ -79,8 +79,8 @@ MDS_Err_t DEV_ADC_PeriphConvert(DEV_ADC_Periph_t *periph, int32_t *value, int32_
 
     const DEV_ADC_Adaptr_t *adc = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     uint32_t times = 1;

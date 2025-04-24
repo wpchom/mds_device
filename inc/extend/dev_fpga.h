@@ -54,23 +54,22 @@ struct DEV_FPGA_Periph {
 };
 
 /* Function ---------------------------------------------------------------- */
-extern MDS_Err_t DEV_FPGA_AdaptrInit(DEV_FPGA_Adaptr_t *fpga, const char *name, const DEV_FPGA_Driver_t *driver,
-                                     MDS_DevHandle_t *handle, const MDS_Arg_t *init);
-extern MDS_Err_t DEV_FPGA_AdaptrDeInit(DEV_FPGA_Adaptr_t *fpga);
-extern DEV_FPGA_Adaptr_t *DEV_FPGA_AdaptrCreate(const char *name, const DEV_FPGA_Driver_t *driver,
-                                                const MDS_Arg_t *init);
-extern MDS_Err_t DEV_FPGA_AdaptrDestroy(DEV_FPGA_Adaptr_t *fpga);
+MDS_Err_t DEV_FPGA_AdaptrInit(DEV_FPGA_Adaptr_t *fpga, const char *name, const DEV_FPGA_Driver_t *driver,
+                              MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_FPGA_AdaptrDeInit(DEV_FPGA_Adaptr_t *fpga);
+DEV_FPGA_Adaptr_t *DEV_FPGA_AdaptrCreate(const char *name, const DEV_FPGA_Driver_t *driver, const MDS_Arg_t *init);
+MDS_Err_t DEV_FPGA_AdaptrDestroy(DEV_FPGA_Adaptr_t *fpga);
 
-extern MDS_Err_t DEV_FPGA_PeriphInit(DEV_FPGA_Periph_t *periph, const char *name, DEV_FPGA_Adaptr_t *fpga);
-extern MDS_Err_t DEV_FPGA_PeriphDeInit(DEV_FPGA_Periph_t *periph);
-extern DEV_FPGA_Periph_t *DEV_FPGA_PeriphCreate(const char *name, DEV_FPGA_Adaptr_t *fpga);
-extern MDS_Err_t DEV_FPGA_PeriphDestroy(DEV_FPGA_Periph_t *periph);
-extern MDS_Err_t DEV_FPGA_PeriphOpen(DEV_FPGA_Periph_t *periph, MDS_Tick_t timeout);
-extern MDS_Err_t DEV_FPGA_PeriphClose(DEV_FPGA_Periph_t *periph);
+MDS_Err_t DEV_FPGA_PeriphInit(DEV_FPGA_Periph_t *periph, const char *name, DEV_FPGA_Adaptr_t *fpga);
+MDS_Err_t DEV_FPGA_PeriphDeInit(DEV_FPGA_Periph_t *periph);
+DEV_FPGA_Periph_t *DEV_FPGA_PeriphCreate(const char *name, DEV_FPGA_Adaptr_t *fpga);
+MDS_Err_t DEV_FPGA_PeriphDestroy(DEV_FPGA_Periph_t *periph);
+MDS_Err_t DEV_FPGA_PeriphOpen(DEV_FPGA_Periph_t *periph, MDS_Tick_t timeout);
+MDS_Err_t DEV_FPGA_PeriphClose(DEV_FPGA_Periph_t *periph);
 
-extern MDS_Err_t DEV_FPGA_PeriphStart(DEV_FPGA_Periph_t *periph);
-extern MDS_Err_t DEV_FPGA_PeriphTransmit(DEV_FPGA_Periph_t *periph, const uint8_t *buff, size_t len);
-extern MDS_Err_t DEV_FPGA_PeriphFinish(DEV_FPGA_Periph_t *periph);
+MDS_Err_t DEV_FPGA_PeriphStart(DEV_FPGA_Periph_t *periph);
+MDS_Err_t DEV_FPGA_PeriphTransmit(DEV_FPGA_Periph_t *periph, const uint8_t *buff, size_t len);
+MDS_Err_t DEV_FPGA_PeriphFinish(DEV_FPGA_Periph_t *periph);
 
 #ifdef __cplusplus
 }

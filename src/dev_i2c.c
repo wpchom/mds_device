@@ -88,15 +88,14 @@ MDS_Err_t DEV_I2C_PeriphSlaveListen(DEV_I2C_Periph_t *periph, MDS_Tick_t timeout
 
     const DEV_I2C_Adaptr_t *i2c = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     return (i2c->driver->slave(periph, NULL, NULL, timeout));
 }
 
-extern MDS_Err_t DEV_I2C_PeriphSlaveTransfer(DEV_I2C_Periph_t *periph, DEV_I2C_Msg_t *msg, size_t *len,
-                                             MDS_Tick_t timeout)
+MDS_Err_t DEV_I2C_PeriphSlaveTransfer(DEV_I2C_Periph_t *periph, DEV_I2C_Msg_t *msg, size_t *len, MDS_Tick_t timeout)
 {
     MDS_ASSERT(periph != NULL);
     MDS_ASSERT(periph->mount != NULL);
@@ -105,8 +104,8 @@ extern MDS_Err_t DEV_I2C_PeriphSlaveTransfer(DEV_I2C_Periph_t *periph, DEV_I2C_M
 
     const DEV_I2C_Adaptr_t *i2c = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     return (i2c->driver->slave(periph, msg, len, timeout));
@@ -122,8 +121,8 @@ MDS_Err_t DEV_I2C_PeriphMasterTransfer(DEV_I2C_Periph_t *periph, const DEV_I2C_M
     MDS_Err_t err = MDS_EINVAL;
     const DEV_I2C_Adaptr_t *i2c = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     for (size_t retry = 0; (err != MDS_EOK) && (retry <= periph->object.retry); retry++) {

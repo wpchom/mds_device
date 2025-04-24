@@ -43,14 +43,14 @@ struct DEV_NTC_Device {
 };
 
 /* Function ---------------------------------------------------------------- */
-extern MDS_Err_t DEV_NTC_DeviceInit(DEV_NTC_Device_t *ntc, const char *name, const DEV_NTC_Driver_t *driver,
-                                    MDS_DevHandle_t *handle, const MDS_Arg_t *init);
-extern MDS_Err_t DEV_NTC_DeviceDeInit(DEV_NTC_Device_t *ntc);
-extern DEV_NTC_Device_t *DEV_NTC_DeviceCreate(const char *name, const DEV_NTC_Driver_t *driver, const MDS_Arg_t *init);
-extern MDS_Err_t DEV_NTC_DeviceDestroy(DEV_NTC_Device_t *ntc);
+MDS_Err_t DEV_NTC_DeviceInit(DEV_NTC_Device_t *ntc, const char *name, const DEV_NTC_Driver_t *driver,
+                             MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_NTC_DeviceDeInit(DEV_NTC_Device_t *ntc);
+DEV_NTC_Device_t *DEV_NTC_DeviceCreate(const char *name, const DEV_NTC_Driver_t *driver, const MDS_Arg_t *init);
+MDS_Err_t DEV_NTC_DeviceDestroy(DEV_NTC_Device_t *ntc);
 
-extern void DEV_NTC_DeviceCompensation(DEV_NTC_Device_t *ntc, void (*compensation)(DEV_NTC_Value_t *));
-extern MDS_Err_t DEV_NTC_DeviceGetValue(DEV_NTC_Device_t *ntc, DEV_NTC_Value_t *value);
+void DEV_NTC_DeviceCompensation(DEV_NTC_Device_t *ntc, void (*compensation)(DEV_NTC_Value_t *));
+MDS_Err_t DEV_NTC_DeviceGetValue(DEV_NTC_Device_t *ntc, DEV_NTC_Value_t *value);
 
 #ifdef __cplusplus
 }

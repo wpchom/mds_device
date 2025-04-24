@@ -72,34 +72,28 @@ MDS_Err_t DEV_STORAGE_PeriphClose(DEV_STORAGE_Periph_t *periph)
     return (MDS_DevPeriphClose((MDS_DevPeriph_t *)periph));
 }
 
-size_t DEV_STORAGE_PeriphBlockNums(DEV_STORAGE_Periph_t *periph)
+size_t DEV_STORAGE_PeriphSectorNums(DEV_STORAGE_Periph_t *periph)
 {
     MDS_ASSERT(periph != NULL);
 
-    return (periph->object.blockNums);
+    return (periph->object.sectorNums);
 }
 
-size_t DEV_STORAGE_PeriphBlockSize(DEV_STORAGE_Periph_t *periph, size_t block)
+size_t DEV_STORAGE_PeriphSectorSize(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, size_t *align)
 {
     MDS_ASSERT(periph != NULL);
     MDS_ASSERT(periph->mount != NULL);
     MDS_ASSERT(periph->mount->driver != NULL);
-    MDS_ASSERT(periph->mount->driver->blksize != NULL);
+    MDS_ASSERT(periph->mount->driver->sector != NULL);
 
-    const DEV_STORAGE_Adaptr_t *storage = periph->mount;
-
-    if (block > periph->object.blockNums) {
-        return (0);
-    }
-
-    return (storage->driver->blksize(storage, block));
+    return (periph->mount->driver->sector(periph, ofs, align));
 }
 
 size_t DEV_STORAGE_PeriphTotalSize(DEV_STORAGE_Periph_t *periph)
 {
     if (periph->totalSize == 0) {
-        for (size_t cnt = 0; cnt < periph->object.blockNums; cnt++) {
-            periph->totalSize += DEV_STORAGE_PeriphBlockSize(periph, cnt);
+        for (size_t idx = 0; idx < periph->object.sectorNums; idx++) {
+            periph->totalSize += DEV_STORAGE_PeriphSectorSize(periph, periph->totalSize, NULL);
         }
     }
 
@@ -115,39 +109,35 @@ MDS_Err_t DEV_STORAGE_PeriphRead(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, ui
 
     const DEV_STORAGE_Adaptr_t *storage = periph->mount;
 
-    DEV_STORAGE_PeriphTotalSize(periph);
-
-    if (ofs > periph->totalSize) {
+    if (ofs > DEV_STORAGE_PeriphTotalSize(periph)) {
         return (MDS_EINVAL);
     }
 
     return (storage->driver->read(periph, ofs, buff, len, read));
 }
 
-MDS_Err_t DEV_STORAGE_PeriphProgram(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff, size_t len,
-                                    size_t *write)
+MDS_Err_t DEV_STORAGE_PeriphWrite(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff, size_t len,
+                                  size_t *write)
 {
     MDS_ASSERT(periph != NULL);
     MDS_ASSERT(periph->mount != NULL);
     MDS_ASSERT(periph->mount->driver != NULL);
-    MDS_ASSERT(periph->mount->driver->prog != NULL);
+    MDS_ASSERT(periph->mount->driver->write != NULL);
 
     const DEV_STORAGE_Adaptr_t *storage = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
-    }
-
-    DEV_STORAGE_PeriphTotalSize(periph);
-
-    if (ofs > periph->totalSize) {
+    if (ofs > DEV_STORAGE_PeriphTotalSize(periph)) {
         return (MDS_EINVAL);
     }
 
-    return (storage->driver->prog(periph, ofs, buff, len, write));
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
+    }
+
+    return (storage->driver->write(periph, ofs, buff, len, write));
 }
 
-MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, size_t block, size_t nums, size_t *erase)
+MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, size_t size, size_t *erase)
 {
     MDS_ASSERT(periph != NULL);
     MDS_ASSERT(periph->mount != NULL);
@@ -156,15 +146,9 @@ MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, size_t block, si
 
     const DEV_STORAGE_Adaptr_t *storage = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
-    DEV_STORAGE_PeriphTotalSize(periph);
-
-    if (block > periph->object.blockNums) {
-        return (MDS_EINVAL);
-    }
-
-    return (storage->driver->erase(periph, block, nums, erase));
+    return (storage->driver->erase(periph, ofs, size, erase));
 }

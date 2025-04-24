@@ -101,8 +101,8 @@ MDS_Err_t DEV_SPI_PeriphTransferMsg(DEV_SPI_Periph_t *periph, const DEV_SPI_Msg_
     MDS_Err_t err = MDS_EINVAL;
     const DEV_SPI_Adaptr_t *spi = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     for (size_t retry = 0; (err != MDS_EOK) && (retry <= periph->object.retry); retry++) {

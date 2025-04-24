@@ -91,8 +91,8 @@ MDS_Err_t DEV_UART_PeriphTransmitMsg(DEV_UART_Periph_t *periph, const MDS_MsgLis
     MDS_Err_t err = MDS_EINVAL;
     const DEV_UART_Adaptr_t *uart = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     if ((periph->config.direct & DEV_UART_DIRECT_HALF) != 0U) {
@@ -135,8 +135,8 @@ MDS_Err_t DEV_UART_PeriphReceive(DEV_UART_Periph_t *periph, uint8_t *buff, size_
 
     const DEV_UART_Adaptr_t *uart = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     if ((periph->config.direct & DEV_UART_DIRECT_HALF) != 0U) {

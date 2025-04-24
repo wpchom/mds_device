@@ -104,24 +104,24 @@ struct DEV_SPI_Periph {
 };
 
 /* Function ---------------------------------------------------------------- */
-extern MDS_Err_t DEV_SPI_AdaptrInit(DEV_SPI_Adaptr_t *spi, const char *name, const DEV_SPI_Driver_t *driver,
-                                    MDS_DevHandle_t *handle, const MDS_Arg_t *init);
-extern MDS_Err_t DEV_SPI_AdaptrDeInit(DEV_SPI_Adaptr_t *spi);
-extern DEV_SPI_Adaptr_t *DEV_SPI_AdaptrCreate(const char *name, const DEV_SPI_Driver_t *driver, const MDS_Arg_t *init);
-extern MDS_Err_t DEV_SPI_AdaptrDestroy(DEV_SPI_Adaptr_t *spi);
+MDS_Err_t DEV_SPI_AdaptrInit(DEV_SPI_Adaptr_t *spi, const char *name, const DEV_SPI_Driver_t *driver,
+                             MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_SPI_AdaptrDeInit(DEV_SPI_Adaptr_t *spi);
+DEV_SPI_Adaptr_t *DEV_SPI_AdaptrCreate(const char *name, const DEV_SPI_Driver_t *driver, const MDS_Arg_t *init);
+MDS_Err_t DEV_SPI_AdaptrDestroy(DEV_SPI_Adaptr_t *spi);
 
-extern MDS_Err_t DEV_SPI_PeriphInit(DEV_SPI_Periph_t *periph, const char *name, DEV_SPI_Adaptr_t *spi);
-extern MDS_Err_t DEV_SPI_PeriphDeInit(DEV_SPI_Periph_t *periph);
-extern DEV_SPI_Periph_t *DEV_SPI_PeriphCreate(const char *name, DEV_SPI_Adaptr_t *spi);
-extern MDS_Err_t DEV_SPI_PeriphDestroy(DEV_SPI_Periph_t *periph);
+MDS_Err_t DEV_SPI_PeriphInit(DEV_SPI_Periph_t *periph, const char *name, DEV_SPI_Adaptr_t *spi);
+MDS_Err_t DEV_SPI_PeriphDeInit(DEV_SPI_Periph_t *periph);
+DEV_SPI_Periph_t *DEV_SPI_PeriphCreate(const char *name, DEV_SPI_Adaptr_t *spi);
+MDS_Err_t DEV_SPI_PeriphDestroy(DEV_SPI_Periph_t *periph);
 
-extern MDS_Err_t DEV_SPI_PeriphOpen(DEV_SPI_Periph_t *periph, MDS_Tick_t timeout);
-extern MDS_Err_t DEV_SPI_PeriphClose(DEV_SPI_Periph_t *periph);
-extern void DEV_SPI_PeriphCallback(
+MDS_Err_t DEV_SPI_PeriphOpen(DEV_SPI_Periph_t *periph, MDS_Tick_t timeout);
+MDS_Err_t DEV_SPI_PeriphClose(DEV_SPI_Periph_t *periph);
+void DEV_SPI_PeriphCallback(
     DEV_SPI_Periph_t *periph,
     void (*callback)(DEV_SPI_Periph_t *, MDS_Arg_t *, const uint8_t *, uint8_t *, size_t, size_t), MDS_Arg_t *arg);
-extern MDS_Err_t DEV_SPI_PeriphTransferMsg(DEV_SPI_Periph_t *periph, const DEV_SPI_Msg_t *msg);
-extern MDS_Err_t DEV_SPI_PeriphTransfer(DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx, size_t size);
+MDS_Err_t DEV_SPI_PeriphTransferMsg(DEV_SPI_Periph_t *periph, const DEV_SPI_Msg_t *msg);
+MDS_Err_t DEV_SPI_PeriphTransfer(DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx, size_t size);
 
 #ifdef __cplusplus
 }

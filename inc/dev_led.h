@@ -70,15 +70,14 @@ struct DEV_LED_Device {
 };
 
 /* Function ---------------------------------------------------------------- */
-extern MDS_Err_t DEV_LED_DeviceInit(DEV_LED_Device_t *led, const char *name, const DEV_LED_Driver_t *driver,
-                                    MDS_DevHandle_t *handle, const MDS_Arg_t *init);
-extern MDS_Err_t DEV_LED_DeviceDeInit(DEV_LED_Device_t *led);
-extern DEV_LED_Device_t *DEV_LED_DeviceCreate(const char *name, const DEV_LED_Driver_t *driver, const MDS_Arg_t *init);
-extern MDS_Err_t DEV_LED_DeviceDestroy(DEV_LED_Device_t *led);
+MDS_Err_t DEV_LED_DeviceInit(DEV_LED_Device_t *led, const char *name, const DEV_LED_Driver_t *driver,
+                             MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_LED_DeviceDeInit(DEV_LED_Device_t *led);
+DEV_LED_Device_t *DEV_LED_DeviceCreate(const char *name, const DEV_LED_Driver_t *driver, const MDS_Arg_t *init);
+MDS_Err_t DEV_LED_DeviceDestroy(DEV_LED_Device_t *led);
 
-extern MDS_Err_t DEV_LED_DeviceLight(DEV_LED_Device_t *led, const DEV_LED_Color_t *color, const DEV_LED_Light_t *light);
-extern MDS_Err_t DEV_LED_DeviceColor(DEV_LED_Device_t *led, DEV_LED_ColorEnum_t colorEnum,
-                                     const DEV_LED_Light_t *light);
+MDS_Err_t DEV_LED_DeviceLight(DEV_LED_Device_t *led, const DEV_LED_Color_t *color, const DEV_LED_Light_t *light);
+MDS_Err_t DEV_LED_DeviceColor(DEV_LED_Device_t *led, DEV_LED_ColorEnum_t colorEnum, const DEV_LED_Light_t *light);
 
 #ifdef __cplusplus
 }

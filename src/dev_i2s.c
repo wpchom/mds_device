@@ -101,8 +101,8 @@ MDS_Err_t DEV_I2S_PeriphTransmit(DEV_I2S_Periph_t *periph, const uint8_t *buff, 
     MDS_Err_t err = MDS_EINVAL;
     const DEV_I2S_Adaptr_t *i2s = periph->mount;
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     MDS_Tick_t optick = (periph->object.optick > 0) ? (periph->object.optick)
@@ -119,8 +119,8 @@ MDS_Err_t DEV_I2S_PeriphReceive(DEV_I2S_Periph_t *periph, uint8_t *buff, size_t 
     MDS_ASSERT(periph->mount->driver != NULL);
     MDS_ASSERT(periph->mount->driver->receive != NULL);
 
-    if (!MDS_DevPeriphIsAccessible((MDS_DevPeriph_t *)periph)) {
-        return (MDS_EIO);
+    if (!MDS_DevPeriphIsAccessable((MDS_DevPeriph_t *)periph)) {
+        return (MDS_EACCES);
     }
 
     return (periph->mount->driver->receive(periph, buff, size, recv, timeout));

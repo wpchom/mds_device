@@ -113,28 +113,27 @@ struct DEV_UART_Periph {
 };
 
 /* Function ---------------------------------------------------------------- */
-extern MDS_Err_t DEV_UART_AdaptrInit(DEV_UART_Adaptr_t *uart, const char *name, const DEV_UART_Driver_t *driver,
-                                     MDS_DevHandle_t *handle, const MDS_Arg_t *init);
-extern MDS_Err_t DEV_UART_AdaptrDeInit(DEV_UART_Adaptr_t *uart);
-extern DEV_UART_Adaptr_t *DEV_UART_AdaptrCreate(const char *name, const DEV_UART_Driver_t *driver,
-                                                const MDS_Arg_t *init);
-extern MDS_Err_t DEV_UART_AdaptrDestroy(DEV_UART_Adaptr_t *uart);
+MDS_Err_t DEV_UART_AdaptrInit(DEV_UART_Adaptr_t *uart, const char *name, const DEV_UART_Driver_t *driver,
+                              MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_UART_AdaptrDeInit(DEV_UART_Adaptr_t *uart);
+DEV_UART_Adaptr_t *DEV_UART_AdaptrCreate(const char *name, const DEV_UART_Driver_t *driver, const MDS_Arg_t *init);
+MDS_Err_t DEV_UART_AdaptrDestroy(DEV_UART_Adaptr_t *uart);
 
-extern MDS_Err_t DEV_UART_PeriphInit(DEV_UART_Periph_t *periph, const char *name, DEV_UART_Adaptr_t *uart);
-extern MDS_Err_t DEV_UART_PeriphDeInit(DEV_UART_Periph_t *periph);
-extern DEV_UART_Periph_t *DEV_UART_PeriphCreate(const char *name, DEV_UART_Adaptr_t *uart);
-extern MDS_Err_t DEV_UART_PeriphDestroy(DEV_UART_Periph_t *periph);
+MDS_Err_t DEV_UART_PeriphInit(DEV_UART_Periph_t *periph, const char *name, DEV_UART_Adaptr_t *uart);
+MDS_Err_t DEV_UART_PeriphDeInit(DEV_UART_Periph_t *periph);
+DEV_UART_Periph_t *DEV_UART_PeriphCreate(const char *name, DEV_UART_Adaptr_t *uart);
+MDS_Err_t DEV_UART_PeriphDestroy(DEV_UART_Periph_t *periph);
 
-extern MDS_Err_t DEV_UART_PeriphOpen(DEV_UART_Periph_t *periph, MDS_Tick_t timeout);
-extern MDS_Err_t DEV_UART_PeriphClose(DEV_UART_Periph_t *periph);
+MDS_Err_t DEV_UART_PeriphOpen(DEV_UART_Periph_t *periph, MDS_Tick_t timeout);
+MDS_Err_t DEV_UART_PeriphClose(DEV_UART_Periph_t *periph);
 
-extern void DEV_UART_PeriphRxCallback(DEV_UART_Periph_t *periph,
-                                      void (*callback)(DEV_UART_Periph_t *, MDS_Arg_t *, uint8_t *, size_t, size_t),
-                                      MDS_Arg_t *arg);
-extern MDS_Err_t DEV_UART_PeriphReceive(DEV_UART_Periph_t *periph, uint8_t *buff, size_t size, MDS_Tick_t timeout);
+void DEV_UART_PeriphRxCallback(DEV_UART_Periph_t *periph,
+                               void (*callback)(DEV_UART_Periph_t *, MDS_Arg_t *, uint8_t *, size_t, size_t),
+                               MDS_Arg_t *arg);
+MDS_Err_t DEV_UART_PeriphReceive(DEV_UART_Periph_t *periph, uint8_t *buff, size_t size, MDS_Tick_t timeout);
 
-extern MDS_Err_t DEV_UART_PeriphTransmitMsg(DEV_UART_Periph_t *periph, const MDS_MsgList_t *msg);
-extern MDS_Err_t DEV_UART_PeriphTransmit(DEV_UART_Periph_t *periph, const uint8_t *buff, size_t len);
+MDS_Err_t DEV_UART_PeriphTransmitMsg(DEV_UART_Periph_t *periph, const MDS_MsgList_t *msg);
+MDS_Err_t DEV_UART_PeriphTransmit(DEV_UART_Periph_t *periph, const uint8_t *buff, size_t len);
 
 #ifdef __cplusplus
 }
