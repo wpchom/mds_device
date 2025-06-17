@@ -13,10 +13,12 @@
 #include "dev_qspi.h"
 
 /* SPI adaptr -------------------------------------------------------------- */
-MDS_Err_t DEV_QSPI_AdaptrInit(DEV_QSPI_Adaptr_t *qspi, const char *name, const DEV_QSPI_Driver_t *driver,
-                              MDS_DevHandle_t *handle, const MDS_Arg_t *init)
+MDS_Err_t DEV_QSPI_AdaptrInit(DEV_QSPI_Adaptr_t *qspi, const char *name,
+                              const DEV_QSPI_Driver_t *driver, MDS_DevHandle_t *handle,
+                              const MDS_Arg_t *init)
 {
-    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)qspi, name, (const MDS_DevDriver_t *)driver, handle, init));
+    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)qspi, name, (const MDS_DevDriver_t *)driver,
+                              handle, init));
 }
 
 MDS_Err_t DEV_QSPI_AdaptrDeInit(DEV_QSPI_Adaptr_t *qspi)
@@ -24,10 +26,11 @@ MDS_Err_t DEV_QSPI_AdaptrDeInit(DEV_QSPI_Adaptr_t *qspi)
     return (MDS_DevAdaptrDeInit((MDS_DevAdaptr_t *)qspi));
 }
 
-DEV_QSPI_Adaptr_t *DEV_QSPI_AdaptrCreate(const char *name, const DEV_QSPI_Driver_t *driver, const MDS_Arg_t *init)
+DEV_QSPI_Adaptr_t *DEV_QSPI_AdaptrCreate(const char *name, const DEV_QSPI_Driver_t *driver,
+                                         const MDS_Arg_t *init)
 {
-    return ((DEV_QSPI_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_QSPI_Adaptr_t), name, (const MDS_DevDriver_t *)driver,
-                                                     init));
+    return ((DEV_QSPI_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_QSPI_Adaptr_t), name,
+                                                     (const MDS_DevDriver_t *)driver, init));
 }
 
 MDS_Err_t DEV_QSPI_AdaptrDestroy(DEV_QSPI_Adaptr_t *qspi)
@@ -62,7 +65,8 @@ MDS_Err_t DEV_QSPI_PeriphDeInit(DEV_QSPI_Periph_t *periph)
 
 DEV_QSPI_Periph_t *DEV_QSPI_PeriphCreate(const char *name, DEV_QSPI_Adaptr_t *qspi)
 {
-    DEV_QSPI_Periph_t *periph = (DEV_QSPI_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_QSPI_Periph_t), name,
+    DEV_QSPI_Periph_t *periph = (DEV_QSPI_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_QSPI_Periph_t),
+                                                                         name,
                                                                          (MDS_DevAdaptr_t *)qspi);
 
     return (periph);
@@ -73,7 +77,7 @@ MDS_Err_t DEV_QSPI_PeriphDestroy(DEV_QSPI_Periph_t *periph)
     return (MDS_DevPeriphDestroy((MDS_DevPeriph_t *)periph));
 }
 
-MDS_Err_t DEV_QSPI_PeriphOpen(DEV_QSPI_Periph_t *periph, MDS_Tick_t timeout)
+MDS_Err_t DEV_QSPI_PeriphOpen(DEV_QSPI_Periph_t *periph, MDS_Timeout_t timeout)
 {
     MDS_Err_t err = MDS_DevPeriphOpen((MDS_DevPeriph_t *)periph, timeout);
 
@@ -91,9 +95,10 @@ MDS_Err_t DEV_QSPI_PeriphClose(DEV_QSPI_Periph_t *periph)
     return (err);
 }
 
-void DEV_QSPI_PeriphCallback(
-    DEV_QSPI_Periph_t *periph,
-    void (*callback)(DEV_QSPI_Periph_t *, MDS_Arg_t *, const uint8_t *, uint8_t *, size_t, size_t), MDS_Arg_t *arg)
+void DEV_QSPI_PeriphCallback(DEV_QSPI_Periph_t *periph,
+                             void (*callback)(DEV_QSPI_Periph_t *, MDS_Arg_t *, const uint8_t *,
+                                              uint8_t *, size_t, size_t),
+                             MDS_Arg_t *arg)
 {
     periph->callback = callback;
     periph->arg = arg;
@@ -151,7 +156,7 @@ MDS_Err_t DEV_QSPI_PeriphTransmit(DEV_QSPI_Periph_t *periph, const uint8_t *tx, 
 
     MDS_Tick_t optick = size / ((periph->config.clock / 0x0E) + 0x01);
 
-    MDS_Err_t err = qspi->driver->transmit(periph, tx, size, optick);
+    MDS_Err_t err = qspi->driver->transmit(periph, tx, size, MDS_TIMEOUT_TICKS(optick));
 
     return (err);
 }
@@ -171,7 +176,7 @@ MDS_Err_t DEV_QSPI_PeriphReceive(DEV_QSPI_Periph_t *periph, uint8_t *rx, size_t 
 
     MDS_Tick_t optick = size / ((periph->config.clock / 0x0E) + 0x01);
 
-    MDS_Err_t err = qspi->driver->recvice(periph, rx, size, optick);
+    MDS_Err_t err = qspi->driver->recvice(periph, rx, size, MDS_TIMEOUT_TICKS(optick));
 
     return (err);
 }

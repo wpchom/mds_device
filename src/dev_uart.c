@@ -13,10 +13,12 @@
 #include "dev_uart.h"
 
 /* UART adaptr ------------------------------------------------------------- */
-MDS_Err_t DEV_UART_AdaptrInit(DEV_UART_Adaptr_t *uart, const char *name, const DEV_UART_Driver_t *driver,
-                              MDS_DevHandle_t *handle, const MDS_Arg_t *init)
+MDS_Err_t DEV_UART_AdaptrInit(DEV_UART_Adaptr_t *uart, const char *name,
+                              const DEV_UART_Driver_t *driver, MDS_DevHandle_t *handle,
+                              const MDS_Arg_t *init)
 {
-    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)uart, name, (const MDS_DevDriver_t *)driver, handle, init));
+    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)uart, name, (const MDS_DevDriver_t *)driver,
+                              handle, init));
 }
 
 MDS_Err_t DEV_UART_AdaptrDeInit(DEV_UART_Adaptr_t *uart)
@@ -24,10 +26,11 @@ MDS_Err_t DEV_UART_AdaptrDeInit(DEV_UART_Adaptr_t *uart)
     return (MDS_DevAdaptrDeInit((MDS_DevAdaptr_t *)uart));
 }
 
-DEV_UART_Adaptr_t *DEV_UART_AdaptrCreate(const char *name, const DEV_UART_Driver_t *driver, const MDS_Arg_t *init)
+DEV_UART_Adaptr_t *DEV_UART_AdaptrCreate(const char *name, const DEV_UART_Driver_t *driver,
+                                         const MDS_Arg_t *init)
 {
-    return ((DEV_UART_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_UART_Adaptr_t), name, (const MDS_DevDriver_t *)driver,
-                                                     init));
+    return ((DEV_UART_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_UART_Adaptr_t), name,
+                                                     (const MDS_DevDriver_t *)driver, init));
 }
 
 MDS_Err_t DEV_UART_AdaptrDestroy(DEV_UART_Adaptr_t *uart)
@@ -50,7 +53,8 @@ MDS_Err_t DEV_UART_PeriphDeInit(DEV_UART_Periph_t *periph)
 
 DEV_UART_Periph_t *DEV_UART_PeriphCreate(const char *name, DEV_UART_Adaptr_t *uart)
 {
-    DEV_UART_Periph_t *periph = (DEV_UART_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_UART_Periph_t), name,
+    DEV_UART_Periph_t *periph = (DEV_UART_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_UART_Periph_t),
+                                                                         name,
                                                                          (MDS_DevAdaptr_t *)uart);
 
     return (periph);
@@ -61,7 +65,7 @@ MDS_Err_t DEV_UART_PeriphDestroy(DEV_UART_Periph_t *periph)
     return (MDS_DevPeriphDestroy((MDS_DevPeriph_t *)periph));
 }
 
-MDS_Err_t DEV_UART_PeriphOpen(DEV_UART_Periph_t *periph, MDS_Tick_t timeout)
+MDS_Err_t DEV_UART_PeriphOpen(DEV_UART_Periph_t *periph, MDS_Timeout_t timeout)
 {
     return (MDS_DevPeriphOpen((MDS_DevPeriph_t *)periph, timeout));
 }
@@ -71,9 +75,9 @@ MDS_Err_t DEV_UART_PeriphClose(DEV_UART_Periph_t *periph)
     return (MDS_DevPeriphClose((MDS_DevPeriph_t *)periph));
 }
 
-void DEV_UART_PeriphRxCallback(DEV_UART_Periph_t *periph,
-                               void (*callback)(DEV_UART_Periph_t *, MDS_Arg_t *, uint8_t *, size_t, size_t),
-                               MDS_Arg_t *arg)
+void DEV_UART_PeriphRxCallback(
+    DEV_UART_Periph_t *periph,
+    void (*callback)(DEV_UART_Periph_t *, MDS_Arg_t *, uint8_t *, size_t, size_t), MDS_Arg_t *arg)
 {
     MDS_ASSERT(periph != NULL);
 
@@ -100,9 +104,10 @@ MDS_Err_t DEV_UART_PeriphTransmitMsg(DEV_UART_Periph_t *periph, const MDS_MsgLis
         uart->driver->control(uart, DEV_UART_CMD_DIRECT, (MDS_Arg_t *)(&dir));
     }
     for (const MDS_MsgList_t *cur = msg; cur != NULL; cur = cur->next) {
-        MDS_Tick_t optick = (periph->object.timeout > 0) ? (periph->object.timeout)
-                                                        : (msg->len / ((periph->config.baudrate >> 0x0E) + 0x01));
-        err = uart->driver->transmit(periph, cur->buff, cur->len, optick);
+        MDS_Tick_t optick = (periph->object.timeout.ticks > 0)
+                                ? (periph->object.timeout.ticks)
+                                : (msg->len / ((periph->config.baudrate >> 0x0E) + 0x01));
+        err = uart->driver->transmit(periph, cur->buff, cur->len, MDS_TIMEOUT_TICKS(optick));
         if (err != MDS_EOK) {
             break;
         }
@@ -126,7 +131,8 @@ MDS_Err_t DEV_UART_PeriphTransmit(DEV_UART_Periph_t *periph, const uint8_t *buff
     return (DEV_UART_PeriphTransmitMsg(periph, &msg));
 }
 
-MDS_Err_t DEV_UART_PeriphReceive(DEV_UART_Periph_t *periph, uint8_t *buff, size_t size, MDS_Tick_t timeout)
+MDS_Err_t DEV_UART_PeriphReceive(DEV_UART_Periph_t *periph, uint8_t *buff, size_t size,
+                                 MDS_Timeout_t timeout)
 {
     MDS_ASSERT(periph != NULL);
     MDS_ASSERT(periph->mount != NULL);

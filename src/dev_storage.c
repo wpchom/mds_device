@@ -13,10 +13,12 @@
 #include "dev_storage.h"
 
 /* Storage adaptr ---------------------------------------------------------- */
-MDS_Err_t DEV_STORAGE_AdaptrInit(DEV_STORAGE_Adaptr_t *storage, const char *name, const DEV_STORAGE_Driver_t *driver,
-                                 MDS_DevHandle_t *handle, const MDS_Arg_t *init)
+MDS_Err_t DEV_STORAGE_AdaptrInit(DEV_STORAGE_Adaptr_t *storage, const char *name,
+                                 const DEV_STORAGE_Driver_t *driver, MDS_DevHandle_t *handle,
+                                 const MDS_Arg_t *init)
 {
-    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)storage, name, (const MDS_DevDriver_t *)driver, handle, init));
+    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)storage, name, (const MDS_DevDriver_t *)driver,
+                              handle, init));
 }
 
 MDS_Err_t DEV_STORAGE_AdaptrDeInit(DEV_STORAGE_Adaptr_t *storage)
@@ -24,7 +26,8 @@ MDS_Err_t DEV_STORAGE_AdaptrDeInit(DEV_STORAGE_Adaptr_t *storage)
     return (MDS_DevAdaptrDeInit((MDS_DevAdaptr_t *)storage));
 }
 
-DEV_STORAGE_Adaptr_t *DEV_STORAGE_AdaptrCreate(const char *name, const DEV_STORAGE_Driver_t *driver,
+DEV_STORAGE_Adaptr_t *DEV_STORAGE_AdaptrCreate(const char *name,
+                                               const DEV_STORAGE_Driver_t *driver,
                                                const MDS_Arg_t *init)
 {
     return ((DEV_STORAGE_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_STORAGE_Adaptr_t), name,
@@ -37,7 +40,8 @@ MDS_Err_t DEV_STORAGE_AdaptrDestroy(DEV_STORAGE_Adaptr_t *storage)
 }
 
 /* Storage periph ---------------------------------------------------------- */
-MDS_Err_t DEV_STORAGE_PeriphInit(DEV_STORAGE_Periph_t *periph, const char *name, DEV_STORAGE_Adaptr_t *storage)
+MDS_Err_t DEV_STORAGE_PeriphInit(DEV_STORAGE_Periph_t *periph, const char *name,
+                                 DEV_STORAGE_Adaptr_t *storage)
 {
     MDS_Err_t err = MDS_DevPeriphInit((MDS_DevPeriph_t *)periph, name, (MDS_DevAdaptr_t *)storage);
 
@@ -51,8 +55,8 @@ MDS_Err_t DEV_STORAGE_PeriphDeInit(DEV_STORAGE_Periph_t *periph)
 
 DEV_STORAGE_Periph_t *DEV_STORAGE_PeriphCreate(const char *name, DEV_STORAGE_Adaptr_t *storage)
 {
-    DEV_STORAGE_Periph_t *periph = (DEV_STORAGE_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_STORAGE_Periph_t), name,
-                                                                               (MDS_DevAdaptr_t *)storage);
+    DEV_STORAGE_Periph_t *periph = (DEV_STORAGE_Periph_t *)MDS_DevPeriphCreate(
+        sizeof(DEV_STORAGE_Periph_t), name, (MDS_DevAdaptr_t *)storage);
 
     return (periph);
 }
@@ -62,7 +66,7 @@ MDS_Err_t DEV_STORAGE_PeriphDestroy(DEV_STORAGE_Periph_t *periph)
     return (MDS_DevPeriphDestroy((MDS_DevPeriph_t *)periph));
 }
 
-MDS_Err_t DEV_STORAGE_PeriphOpen(DEV_STORAGE_Periph_t *periph, MDS_Tick_t timeout)
+MDS_Err_t DEV_STORAGE_PeriphOpen(DEV_STORAGE_Periph_t *periph, MDS_Timeout_t timeout)
 {
     return (MDS_DevPeriphOpen((MDS_DevPeriph_t *)periph, timeout));
 }
@@ -100,7 +104,8 @@ size_t DEV_STORAGE_PeriphTotalSize(DEV_STORAGE_Periph_t *periph)
     return (periph->totalSize);
 }
 
-MDS_Err_t DEV_STORAGE_PeriphRead(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uint8_t *buff, size_t len, size_t *read)
+MDS_Err_t DEV_STORAGE_PeriphRead(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uint8_t *buff,
+                                 size_t len, size_t *read)
 {
     MDS_ASSERT(periph != NULL);
     MDS_ASSERT(periph->mount != NULL);
@@ -116,8 +121,8 @@ MDS_Err_t DEV_STORAGE_PeriphRead(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, ui
     return (storage->driver->read(periph, ofs, buff, len, read));
 }
 
-MDS_Err_t DEV_STORAGE_PeriphWrite(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff, size_t len,
-                                  size_t *write)
+MDS_Err_t DEV_STORAGE_PeriphWrite(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff,
+                                  size_t len, size_t *write)
 {
     MDS_ASSERT(periph != NULL);
     MDS_ASSERT(periph->mount != NULL);
@@ -137,7 +142,8 @@ MDS_Err_t DEV_STORAGE_PeriphWrite(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, c
     return (storage->driver->write(periph, ofs, buff, len, write));
 }
 
-MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, size_t size, size_t *erase)
+MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, size_t size,
+                                  size_t *erase)
 {
     MDS_ASSERT(periph != NULL);
     MDS_ASSERT(periph->mount != NULL);

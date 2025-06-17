@@ -13,10 +13,12 @@
 #include "extend/dev_ntc.h"
 
 /* NTC device -------------------------------------------------------------- */
-MDS_Err_t DEV_NTC_DeviceInit(DEV_NTC_Device_t *ntc, const char *name, const DEV_NTC_Driver_t *driver,
-                             MDS_DevHandle_t *handle, const MDS_Arg_t *init)
+MDS_Err_t DEV_NTC_DeviceInit(DEV_NTC_Device_t *ntc, const char *name,
+                             const DEV_NTC_Driver_t *driver, MDS_DevHandle_t *handle,
+                             const MDS_Arg_t *init)
 {
-    return (MDS_DevModuleInit((MDS_DevModule_t *)ntc, name, (const MDS_DevDriver_t *)driver, handle, init));
+    return (MDS_DevModuleInit((MDS_DevModule_t *)ntc, name, (const MDS_DevDriver_t *)driver,
+                              handle, init));
 }
 
 MDS_Err_t DEV_NTC_DeviceDeInit(DEV_NTC_Device_t *ntc)
@@ -24,10 +26,11 @@ MDS_Err_t DEV_NTC_DeviceDeInit(DEV_NTC_Device_t *ntc)
     return (MDS_DevModuleDeInit((MDS_DevModule_t *)ntc));
 }
 
-DEV_NTC_Device_t *DEV_NTC_DeviceCreate(const char *name, const DEV_NTC_Driver_t *driver, const MDS_Arg_t *init)
+DEV_NTC_Device_t *DEV_NTC_DeviceCreate(const char *name, const DEV_NTC_Driver_t *driver,
+                                       const MDS_Arg_t *init)
 {
-    return ((DEV_NTC_Device_t *)MDS_DevModuleCreate(sizeof(DEV_NTC_Device_t), name, (const MDS_DevDriver_t *)driver,
-                                                    init));
+    return ((DEV_NTC_Device_t *)MDS_DevModuleCreate(sizeof(DEV_NTC_Device_t), name,
+                                                    (const MDS_DevDriver_t *)driver, init));
 }
 
 MDS_Err_t DEV_NTC_DeviceDestroy(DEV_NTC_Device_t *ntc)

@@ -57,8 +57,9 @@ typedef struct DEV_LED_Config {
 typedef struct DEV_LED_Device DEV_LED_Device_t;
 
 typedef struct DEV_LED_Driver {
-    MDS_Err_t (*control)(const DEV_LED_Device_t *led, MDS_Item_t cmd, MDS_Arg_t *arg);
-    MDS_Err_t (*light)(const DEV_LED_Device_t *led, const DEV_LED_Color_t *color, const DEV_LED_Light_t *light);
+    MDS_Err_t (*control)(const DEV_LED_Device_t *led, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*light)(const DEV_LED_Device_t *led, const DEV_LED_Color_t *color,
+                       const DEV_LED_Light_t *light);
 } DEV_LED_Driver_t;
 
 struct DEV_LED_Device {
@@ -70,14 +71,18 @@ struct DEV_LED_Device {
 };
 
 /* Function ---------------------------------------------------------------- */
-MDS_Err_t DEV_LED_DeviceInit(DEV_LED_Device_t *led, const char *name, const DEV_LED_Driver_t *driver,
-                             MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_LED_DeviceInit(DEV_LED_Device_t *led, const char *name,
+                             const DEV_LED_Driver_t *driver, MDS_DevHandle_t *handle,
+                             const MDS_Arg_t *init);
 MDS_Err_t DEV_LED_DeviceDeInit(DEV_LED_Device_t *led);
-DEV_LED_Device_t *DEV_LED_DeviceCreate(const char *name, const DEV_LED_Driver_t *driver, const MDS_Arg_t *init);
+DEV_LED_Device_t *DEV_LED_DeviceCreate(const char *name, const DEV_LED_Driver_t *driver,
+                                       const MDS_Arg_t *init);
 MDS_Err_t DEV_LED_DeviceDestroy(DEV_LED_Device_t *led);
 
-MDS_Err_t DEV_LED_DeviceLight(DEV_LED_Device_t *led, const DEV_LED_Color_t *color, const DEV_LED_Light_t *light);
-MDS_Err_t DEV_LED_DeviceColor(DEV_LED_Device_t *led, DEV_LED_ColorEnum_t colorEnum, const DEV_LED_Light_t *light);
+MDS_Err_t DEV_LED_DeviceLight(DEV_LED_Device_t *led, const DEV_LED_Color_t *color,
+                              const DEV_LED_Light_t *light);
+MDS_Err_t DEV_LED_DeviceColor(DEV_LED_Device_t *led, DEV_LED_ColorEnum_t colorEnum,
+                              const DEV_LED_Light_t *light);
 
 #ifdef __cplusplus
 }

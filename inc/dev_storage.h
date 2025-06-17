@@ -24,11 +24,13 @@ typedef struct DEV_STORAGE_Adaptr DEV_STORAGE_Adaptr_t;
 typedef struct DEV_STORAGE_Periph DEV_STORAGE_Periph_t;  // parition
 
 typedef struct DEV_STORAGE_Driver {
-    MDS_Err_t (*control)(const DEV_STORAGE_Adaptr_t *flash, MDS_Item_t cmd, MDS_Arg_t *arg);
-    MDS_Err_t (*read)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uint8_t *buff, size_t len, size_t *read);
-    MDS_Err_t (*write)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff, size_t len,
-                       size_t *write);
-    MDS_Err_t (*erase)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, size_t size, size_t *erase);
+    MDS_Err_t (*control)(const DEV_STORAGE_Adaptr_t *flash, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*read)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uint8_t *buff, size_t len,
+                      size_t *read);
+    MDS_Err_t (*write)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff,
+                       size_t len, size_t *write);
+    MDS_Err_t (*erase)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, size_t size,
+                       size_t *erase);
     size_t (*sector)(const DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uintptr_t *align);
 } DEV_STORAGE_Driver_t;
 
@@ -55,27 +57,32 @@ struct DEV_STORAGE_Periph {
 };
 
 /* Function ---------------------------------------------------------------- */
-MDS_Err_t DEV_STORAGE_AdaptrInit(DEV_STORAGE_Adaptr_t *storage, const char *name, const DEV_STORAGE_Driver_t *driver,
-                                 MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_STORAGE_AdaptrInit(DEV_STORAGE_Adaptr_t *storage, const char *name,
+                                 const DEV_STORAGE_Driver_t *driver, MDS_DevHandle_t *handle,
+                                 const MDS_Arg_t *init);
 MDS_Err_t DEV_STORAGE_AdaptrDeInit(DEV_STORAGE_Adaptr_t *storage);
-DEV_STORAGE_Adaptr_t *DEV_STORAGE_AdaptrCreate(const char *name, const DEV_STORAGE_Driver_t *driver,
+DEV_STORAGE_Adaptr_t *DEV_STORAGE_AdaptrCreate(const char *name,
+                                               const DEV_STORAGE_Driver_t *driver,
                                                const MDS_Arg_t *init);
 MDS_Err_t DEV_STORAGE_AdaptrDestroy(DEV_STORAGE_Adaptr_t *storage);
 
-MDS_Err_t DEV_STORAGE_PeriphInit(DEV_STORAGE_Periph_t *periph, const char *name, DEV_STORAGE_Adaptr_t *storage);
+MDS_Err_t DEV_STORAGE_PeriphInit(DEV_STORAGE_Periph_t *periph, const char *name,
+                                 DEV_STORAGE_Adaptr_t *storage);
 MDS_Err_t DEV_STORAGE_PeriphDeInit(DEV_STORAGE_Periph_t *periph);
 DEV_STORAGE_Periph_t *DEV_STORAGE_PeriphCreate(const char *name, DEV_STORAGE_Adaptr_t *storage);
 MDS_Err_t DEV_STORAGE_PeriphDestroy(DEV_STORAGE_Periph_t *periph);
 
-MDS_Err_t DEV_STORAGE_PeriphOpen(DEV_STORAGE_Periph_t *periph, MDS_Tick_t timeout);
+MDS_Err_t DEV_STORAGE_PeriphOpen(DEV_STORAGE_Periph_t *periph, MDS_Timeout_t timeout);
 MDS_Err_t DEV_STORAGE_PeriphClose(DEV_STORAGE_Periph_t *periph);
 size_t DEV_STORAGE_PeriphSectorNums(DEV_STORAGE_Periph_t *periph);
 size_t DEV_STORAGE_PeriphSectorSize(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uintptr_t *align);
 size_t DEV_STORAGE_PeriphTotalSize(DEV_STORAGE_Periph_t *periph);
-MDS_Err_t DEV_STORAGE_PeriphRead(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uint8_t *buff, size_t len, size_t *read);
-MDS_Err_t DEV_STORAGE_PeriphWrite(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff, size_t len,
-                                  size_t *write);
-MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, size_t size, size_t *erase);
+MDS_Err_t DEV_STORAGE_PeriphRead(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, uint8_t *buff,
+                                 size_t len, size_t *read);
+MDS_Err_t DEV_STORAGE_PeriphWrite(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, const uint8_t *buff,
+                                  size_t len, size_t *write);
+MDS_Err_t DEV_STORAGE_PeriphErase(DEV_STORAGE_Periph_t *periph, uintptr_t ofs, size_t size,
+                                  size_t *erase);
 
 #ifdef __cplusplus
 }

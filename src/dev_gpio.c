@@ -13,10 +13,12 @@
 #include "dev_gpio.h"
 
 /* GPIO module ------------------------------------------------------------- */
-MDS_Err_t DEV_GPIO_ModuleInit(DEV_GPIO_Module_t *gpio, const char *name, const DEV_GPIO_Driver_t *driver,
-                              MDS_DevHandle_t *handle, const MDS_Arg_t *init)
+MDS_Err_t DEV_GPIO_ModuleInit(DEV_GPIO_Module_t *gpio, const char *name,
+                              const DEV_GPIO_Driver_t *driver, MDS_DevHandle_t *handle,
+                              const MDS_Arg_t *init)
 {
-    return (MDS_DevModuleInit((MDS_DevModule_t *)gpio, name, (const MDS_DevDriver_t *)driver, handle, init));
+    return (MDS_DevModuleInit((MDS_DevModule_t *)gpio, name, (const MDS_DevDriver_t *)driver,
+                              handle, init));
 }
 
 MDS_Err_t DEV_GPIO_ModuleDeInit(DEV_GPIO_Module_t *gpio)
@@ -24,10 +26,11 @@ MDS_Err_t DEV_GPIO_ModuleDeInit(DEV_GPIO_Module_t *gpio)
     return (MDS_DevModuleDeInit((MDS_DevModule_t *)gpio));
 }
 
-DEV_GPIO_Module_t *DEV_GPIO_ModuleCreate(const char *name, const DEV_GPIO_Driver_t *driver, const MDS_Arg_t *init)
+DEV_GPIO_Module_t *DEV_GPIO_ModuleCreate(const char *name, const DEV_GPIO_Driver_t *driver,
+                                         const MDS_Arg_t *init)
 {
-    return ((DEV_GPIO_Module_t *)MDS_DevModuleCreate(sizeof(DEV_GPIO_Module_t), name, (const MDS_DevDriver_t *)driver,
-                                                     init));
+    return ((DEV_GPIO_Module_t *)MDS_DevModuleCreate(sizeof(DEV_GPIO_Module_t), name,
+                                                     (const MDS_DevDriver_t *)driver, init));
 }
 
 MDS_Err_t DEV_GPIO_ModuleDestroy(DEV_GPIO_Module_t *gpio)
@@ -53,7 +56,8 @@ MDS_Err_t DEV_GPIO_PinDeInit(DEV_GPIO_Pin_t *pin)
 
 DEV_GPIO_Pin_t *DEV_GPIO_PinCreate(const char *name, DEV_GPIO_Module_t *gpio)
 {
-    DEV_GPIO_Pin_t *pin = (DEV_GPIO_Pin_t *)MDS_DevPeriphCreate(sizeof(DEV_GPIO_Pin_t), name, (MDS_DevAdaptr_t *)gpio);
+    DEV_GPIO_Pin_t *pin = (DEV_GPIO_Pin_t *)MDS_DevPeriphCreate(sizeof(DEV_GPIO_Pin_t), name,
+                                                                (MDS_DevAdaptr_t *)gpio);
     if (pin != NULL) {
         pin->object.parent = pin;
     }
@@ -76,7 +80,8 @@ MDS_Err_t DEV_GPIO_PinConfig(DEV_GPIO_Pin_t *pin, const DEV_GPIO_Config_t *confi
     return (pin->mount->driver->config(pin, config));
 }
 
-void DEV_GPIO_PinInterruptCallback(DEV_GPIO_Pin_t *pin, void (*callback)(DEV_GPIO_Pin_t *, MDS_Arg_t *), MDS_Arg_t *arg)
+void DEV_GPIO_PinInterruptCallback(DEV_GPIO_Pin_t *pin,
+                                   void (*callback)(DEV_GPIO_Pin_t *, MDS_Arg_t *), MDS_Arg_t *arg)
 {
     MDS_ASSERT(pin != NULL);
 

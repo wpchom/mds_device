@@ -13,10 +13,12 @@
 #include "dev_adc.h"
 
 /* ADC adaptr -------------------------------------------------------------- */
-MDS_Err_t DEV_ADC_AdaptrInit(DEV_ADC_Adaptr_t *adc, const char *name, const DEV_ADC_Driver_t *driver,
-                             MDS_DevHandle_t *handle, const MDS_Arg_t *init)
+MDS_Err_t DEV_ADC_AdaptrInit(DEV_ADC_Adaptr_t *adc, const char *name,
+                             const DEV_ADC_Driver_t *driver, MDS_DevHandle_t *handle,
+                             const MDS_Arg_t *init)
 {
-    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)adc, name, (const MDS_DevDriver_t *)driver, handle, init));
+    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)adc, name, (const MDS_DevDriver_t *)driver,
+                              handle, init));
 }
 
 MDS_Err_t DEV_ADC_AdaptrDeInit(DEV_ADC_Adaptr_t *adc)
@@ -24,10 +26,11 @@ MDS_Err_t DEV_ADC_AdaptrDeInit(DEV_ADC_Adaptr_t *adc)
     return (MDS_DevAdaptrDeInit((MDS_DevAdaptr_t *)adc));
 }
 
-DEV_ADC_Adaptr_t *DEV_ADC_AdaptrCreate(const char *name, const DEV_ADC_Driver_t *driver, const MDS_Arg_t *init)
+DEV_ADC_Adaptr_t *DEV_ADC_AdaptrCreate(const char *name, const DEV_ADC_Driver_t *driver,
+                                       const MDS_Arg_t *init)
 {
-    return ((DEV_ADC_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_ADC_Adaptr_t), name, (const MDS_DevDriver_t *)driver,
-                                                    init));
+    return ((DEV_ADC_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_ADC_Adaptr_t), name,
+                                                    (const MDS_DevDriver_t *)driver, init));
 }
 
 MDS_Err_t DEV_ADC_AdaptrDestroy(DEV_ADC_Adaptr_t *adc)
@@ -49,7 +52,8 @@ MDS_Err_t DEV_ADC_PeriphDeInit(DEV_ADC_Periph_t *periph)
 
 DEV_ADC_Periph_t *DEV_ADC_PeriphCreate(const char *name, DEV_ADC_Adaptr_t *adc)
 {
-    DEV_ADC_Periph_t *periph = (DEV_ADC_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_ADC_Periph_t), name,
+    DEV_ADC_Periph_t *periph = (DEV_ADC_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_ADC_Periph_t),
+                                                                       name,
                                                                        (MDS_DevAdaptr_t *)adc);
 
     return (periph);
@@ -60,7 +64,7 @@ MDS_Err_t DEV_ADC_PeriphDestroy(DEV_ADC_Periph_t *periph)
     return (MDS_DevPeriphDestroy((MDS_DevPeriph_t *)periph));
 }
 
-MDS_Err_t DEV_ADC_PeriphOpen(DEV_ADC_Periph_t *periph, MDS_Tick_t timeout)
+MDS_Err_t DEV_ADC_PeriphOpen(DEV_ADC_Periph_t *periph, MDS_Timeout_t timeout)
 {
     return (MDS_DevPeriphOpen((MDS_DevPeriph_t *)periph, timeout));
 }

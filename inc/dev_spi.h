@@ -68,7 +68,7 @@ typedef struct DEV_SPI_Config {
 } DEV_SPI_Config_t;
 
 typedef struct DEV_SPI_Object {
-    MDS_Tick_t optick;
+    MDS_Timeout_t timeout;
     DEV_GPIO_Pin_t *nss;
     DEV_SPI_BusCS_t busCS : 8;
     uint8_t retry;
@@ -78,9 +78,9 @@ typedef struct DEV_SPI_Adaptr DEV_SPI_Adaptr_t;
 typedef struct DEV_SPI_Periph DEV_SPI_Periph_t;
 
 typedef struct DEV_SPI_Driver {
-    MDS_Err_t (*control)(const DEV_SPI_Adaptr_t *spi, MDS_Item_t cmd, MDS_Arg_t *arg);
-    MDS_Err_t (*transfer)(const DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx, size_t size,
-                          MDS_Tick_t timeout);
+    MDS_Err_t (*control)(const DEV_SPI_Adaptr_t *spi, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*transfer)(const DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx,
+                          size_t size, MDS_Timeout_t timeout);
 } DEV_SPI_Driver_t;
 
 struct DEV_SPI_Adaptr {
@@ -98,16 +98,18 @@ struct DEV_SPI_Periph {
     DEV_SPI_Object_t object;
     DEV_SPI_Config_t config;
 
-    void (*callback)(DEV_SPI_Periph_t *periph, MDS_Arg_t *arg, const uint8_t *tx, uint8_t *rx, size_t size,
-                     size_t trans);
+    void (*callback)(DEV_SPI_Periph_t *periph, MDS_Arg_t *arg, const uint8_t *tx, uint8_t *rx,
+                     size_t size, size_t trans);
     MDS_Arg_t *arg;
 };
 
 /* Function ---------------------------------------------------------------- */
-MDS_Err_t DEV_SPI_AdaptrInit(DEV_SPI_Adaptr_t *spi, const char *name, const DEV_SPI_Driver_t *driver,
-                             MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_SPI_AdaptrInit(DEV_SPI_Adaptr_t *spi, const char *name,
+                             const DEV_SPI_Driver_t *driver, MDS_DevHandle_t *handle,
+                             const MDS_Arg_t *init);
 MDS_Err_t DEV_SPI_AdaptrDeInit(DEV_SPI_Adaptr_t *spi);
-DEV_SPI_Adaptr_t *DEV_SPI_AdaptrCreate(const char *name, const DEV_SPI_Driver_t *driver, const MDS_Arg_t *init);
+DEV_SPI_Adaptr_t *DEV_SPI_AdaptrCreate(const char *name, const DEV_SPI_Driver_t *driver,
+                                       const MDS_Arg_t *init);
 MDS_Err_t DEV_SPI_AdaptrDestroy(DEV_SPI_Adaptr_t *spi);
 
 MDS_Err_t DEV_SPI_PeriphInit(DEV_SPI_Periph_t *periph, const char *name, DEV_SPI_Adaptr_t *spi);
@@ -115,13 +117,15 @@ MDS_Err_t DEV_SPI_PeriphDeInit(DEV_SPI_Periph_t *periph);
 DEV_SPI_Periph_t *DEV_SPI_PeriphCreate(const char *name, DEV_SPI_Adaptr_t *spi);
 MDS_Err_t DEV_SPI_PeriphDestroy(DEV_SPI_Periph_t *periph);
 
-MDS_Err_t DEV_SPI_PeriphOpen(DEV_SPI_Periph_t *periph, MDS_Tick_t timeout);
+MDS_Err_t DEV_SPI_PeriphOpen(DEV_SPI_Periph_t *periph, MDS_Timeout_t timeout);
 MDS_Err_t DEV_SPI_PeriphClose(DEV_SPI_Periph_t *periph);
-void DEV_SPI_PeriphCallback(
-    DEV_SPI_Periph_t *periph,
-    void (*callback)(DEV_SPI_Periph_t *, MDS_Arg_t *, const uint8_t *, uint8_t *, size_t, size_t), MDS_Arg_t *arg);
+void DEV_SPI_PeriphCallback(DEV_SPI_Periph_t *periph,
+                            void (*callback)(DEV_SPI_Periph_t *, MDS_Arg_t *, const uint8_t *,
+                                             uint8_t *, size_t, size_t),
+                            MDS_Arg_t *arg);
 MDS_Err_t DEV_SPI_PeriphTransferMsg(DEV_SPI_Periph_t *periph, const DEV_SPI_Msg_t *msg);
-MDS_Err_t DEV_SPI_PeriphTransfer(DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx, size_t size);
+MDS_Err_t DEV_SPI_PeriphTransfer(DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx,
+                                 size_t size);
 
 #ifdef __cplusplus
 }

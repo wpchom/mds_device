@@ -61,7 +61,7 @@ typedef struct DEV_GPIO_Module DEV_GPIO_Module_t;
 typedef struct DEV_GPIO_Pin DEV_GPIO_Pin_t;
 
 typedef struct DEV_GPIO_Driver {
-    MDS_Err_t (*control)(const DEV_GPIO_Module_t *gpio, MDS_Item_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*control)(const DEV_GPIO_Module_t *gpio, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
     MDS_Err_t (*config)(const DEV_GPIO_Pin_t *pin, const DEV_GPIO_Config_t *config);
     MDS_Mask_t (*read)(const DEV_GPIO_Pin_t *pin, bool input);
     void (*write)(const DEV_GPIO_Pin_t *pin, MDS_Mask_t val);
@@ -92,10 +92,12 @@ struct DEV_GPIO_Pin {
 };
 
 /* Function ---------------------------------------------------------------- */
-MDS_Err_t DEV_GPIO_ModuleInit(DEV_GPIO_Module_t *gpio, const char *name, const DEV_GPIO_Driver_t *driver,
-                              MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_GPIO_ModuleInit(DEV_GPIO_Module_t *gpio, const char *name,
+                              const DEV_GPIO_Driver_t *driver, MDS_DevHandle_t *handle,
+                              const MDS_Arg_t *init);
 MDS_Err_t DEV_GPIO_ModuleDeInit(DEV_GPIO_Module_t *gpio);
-DEV_GPIO_Module_t *DEV_GPIO_ModuleCreate(const char *name, const DEV_GPIO_Driver_t *driver, const MDS_Arg_t *init);
+DEV_GPIO_Module_t *DEV_GPIO_ModuleCreate(const char *name, const DEV_GPIO_Driver_t *driver,
+                                         const MDS_Arg_t *init);
 MDS_Err_t DEV_GPIO_ModuleDestroy(DEV_GPIO_Module_t *gpio);
 
 MDS_Err_t DEV_GPIO_PinInit(DEV_GPIO_Pin_t *pin, const char *name, DEV_GPIO_Module_t *gpio);
@@ -104,7 +106,8 @@ DEV_GPIO_Pin_t *DEV_GPIO_PinCreate(const char *name, DEV_GPIO_Module_t *gpio);
 MDS_Err_t DEV_GPIO_PinDestroy(DEV_GPIO_Pin_t *pin);
 
 MDS_Err_t DEV_GPIO_PinConfig(DEV_GPIO_Pin_t *pin, const DEV_GPIO_Config_t *config);
-void DEV_GPIO_PinInterruptCallback(DEV_GPIO_Pin_t *pin, void (*callback)(DEV_GPIO_Pin_t *, MDS_Arg_t *),
+void DEV_GPIO_PinInterruptCallback(DEV_GPIO_Pin_t *pin,
+                                   void (*callback)(DEV_GPIO_Pin_t *, MDS_Arg_t *),
                                    MDS_Arg_t *arg);
 MDS_Mask_t DEV_GPIO_PinReadInput(const DEV_GPIO_Pin_t *pin);
 MDS_Mask_t DEV_GPIO_PinReadOutput(const DEV_GPIO_Pin_t *pin);

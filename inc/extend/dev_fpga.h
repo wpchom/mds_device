@@ -24,9 +24,10 @@ typedef struct DEV_FPGA_Adaptr DEV_FPGA_Adaptr_t;
 typedef struct DEV_FPGA_Periph DEV_FPGA_Periph_t;
 
 typedef struct DEV_FPGA_Driver {
-    MDS_Err_t (*control)(const DEV_FPGA_Adaptr_t *fpga, MDS_Item_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*control)(const DEV_FPGA_Adaptr_t *fpga, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
     MDS_Err_t (*start)(const DEV_FPGA_Periph_t *periph);
-    MDS_Err_t (*transmit)(const DEV_FPGA_Periph_t *periph, const uint8_t *buff, size_t len, MDS_Tick_t timeout);
+    MDS_Err_t (*transmit)(const DEV_FPGA_Periph_t *periph, const uint8_t *buff, size_t len,
+                          MDS_Timeout_t timeout);
     MDS_Err_t (*finish)(const DEV_FPGA_Periph_t *periph);
 } DEV_FPGA_Driver_t;
 
@@ -39,7 +40,7 @@ struct DEV_FPGA_Adaptr {
 };
 
 typedef struct DEV_FPGA_Object {
-    MDS_Tick_t optick;
+    MDS_Timeout_t timeout;
     MDS_Tick_t clock;
     DEV_GPIO_Pin_t *prog_b;
     DEV_GPIO_Pin_t *init_b;
@@ -54,17 +55,20 @@ struct DEV_FPGA_Periph {
 };
 
 /* Function ---------------------------------------------------------------- */
-MDS_Err_t DEV_FPGA_AdaptrInit(DEV_FPGA_Adaptr_t *fpga, const char *name, const DEV_FPGA_Driver_t *driver,
-                              MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_FPGA_AdaptrInit(DEV_FPGA_Adaptr_t *fpga, const char *name,
+                              const DEV_FPGA_Driver_t *driver, MDS_DevHandle_t *handle,
+                              const MDS_Arg_t *init);
 MDS_Err_t DEV_FPGA_AdaptrDeInit(DEV_FPGA_Adaptr_t *fpga);
-DEV_FPGA_Adaptr_t *DEV_FPGA_AdaptrCreate(const char *name, const DEV_FPGA_Driver_t *driver, const MDS_Arg_t *init);
+DEV_FPGA_Adaptr_t *DEV_FPGA_AdaptrCreate(const char *name, const DEV_FPGA_Driver_t *driver,
+                                         const MDS_Arg_t *init);
 MDS_Err_t DEV_FPGA_AdaptrDestroy(DEV_FPGA_Adaptr_t *fpga);
 
-MDS_Err_t DEV_FPGA_PeriphInit(DEV_FPGA_Periph_t *periph, const char *name, DEV_FPGA_Adaptr_t *fpga);
+MDS_Err_t DEV_FPGA_PeriphInit(DEV_FPGA_Periph_t *periph, const char *name,
+                              DEV_FPGA_Adaptr_t *fpga);
 MDS_Err_t DEV_FPGA_PeriphDeInit(DEV_FPGA_Periph_t *periph);
 DEV_FPGA_Periph_t *DEV_FPGA_PeriphCreate(const char *name, DEV_FPGA_Adaptr_t *fpga);
 MDS_Err_t DEV_FPGA_PeriphDestroy(DEV_FPGA_Periph_t *periph);
-MDS_Err_t DEV_FPGA_PeriphOpen(DEV_FPGA_Periph_t *periph, MDS_Tick_t timeout);
+MDS_Err_t DEV_FPGA_PeriphOpen(DEV_FPGA_Periph_t *periph, MDS_Timeout_t timeout);
 MDS_Err_t DEV_FPGA_PeriphClose(DEV_FPGA_Periph_t *periph);
 
 MDS_Err_t DEV_FPGA_PeriphStart(DEV_FPGA_Periph_t *periph);

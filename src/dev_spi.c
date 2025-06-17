@@ -13,10 +13,12 @@
 #include "dev_spi.h"
 
 /* SPI adaptr -------------------------------------------------------------- */
-MDS_Err_t DEV_SPI_AdaptrInit(DEV_SPI_Adaptr_t *spi, const char *name, const DEV_SPI_Driver_t *driver,
-                             MDS_DevHandle_t *handle, const MDS_Arg_t *init)
+MDS_Err_t DEV_SPI_AdaptrInit(DEV_SPI_Adaptr_t *spi, const char *name,
+                             const DEV_SPI_Driver_t *driver, MDS_DevHandle_t *handle,
+                             const MDS_Arg_t *init)
 {
-    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)spi, name, (const MDS_DevDriver_t *)driver, handle, init));
+    return (MDS_DevAdaptrInit((MDS_DevAdaptr_t *)spi, name, (const MDS_DevDriver_t *)driver,
+                              handle, init));
 }
 
 MDS_Err_t DEV_SPI_AdaptrDeInit(DEV_SPI_Adaptr_t *spi)
@@ -24,10 +26,11 @@ MDS_Err_t DEV_SPI_AdaptrDeInit(DEV_SPI_Adaptr_t *spi)
     return (MDS_DevAdaptrDeInit((MDS_DevAdaptr_t *)spi));
 }
 
-DEV_SPI_Adaptr_t *DEV_SPI_AdaptrCreate(const char *name, const DEV_SPI_Driver_t *driver, const MDS_Arg_t *init)
+DEV_SPI_Adaptr_t *DEV_SPI_AdaptrCreate(const char *name, const DEV_SPI_Driver_t *driver,
+                                       const MDS_Arg_t *init)
 {
-    return ((DEV_SPI_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_SPI_Adaptr_t), name, (const MDS_DevDriver_t *)driver,
-                                                    init));
+    return ((DEV_SPI_Adaptr_t *)MDS_DevAdaptrCreate(sizeof(DEV_SPI_Adaptr_t), name,
+                                                    (const MDS_DevDriver_t *)driver, init));
 }
 
 MDS_Err_t DEV_SPI_AdaptrDestroy(DEV_SPI_Adaptr_t *spi)
@@ -50,7 +53,8 @@ MDS_Err_t DEV_SPI_PeriphDeInit(DEV_SPI_Periph_t *periph)
 
 DEV_SPI_Periph_t *DEV_SPI_PeriphCreate(const char *name, DEV_SPI_Adaptr_t *spi)
 {
-    DEV_SPI_Periph_t *periph = (DEV_SPI_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_SPI_Periph_t), name,
+    DEV_SPI_Periph_t *periph = (DEV_SPI_Periph_t *)MDS_DevPeriphCreate(sizeof(DEV_SPI_Periph_t),
+                                                                       name,
                                                                        (MDS_DevAdaptr_t *)spi);
 
     return (periph);
@@ -61,7 +65,7 @@ MDS_Err_t DEV_SPI_PeriphDestroy(DEV_SPI_Periph_t *periph)
     return (MDS_DevPeriphDestroy((MDS_DevPeriph_t *)periph));
 }
 
-MDS_Err_t DEV_SPI_PeriphOpen(DEV_SPI_Periph_t *periph, MDS_Tick_t timeout)
+MDS_Err_t DEV_SPI_PeriphOpen(DEV_SPI_Periph_t *periph, MDS_Timeout_t timeout)
 {
     return (MDS_DevPeriphOpen((MDS_DevPeriph_t *)periph, timeout));
 }
@@ -71,9 +75,10 @@ MDS_Err_t DEV_SPI_PeriphClose(DEV_SPI_Periph_t *periph)
     return (MDS_DevPeriphClose((MDS_DevPeriph_t *)periph));
 }
 
-void DEV_SPI_PeriphCallback(
-    DEV_SPI_Periph_t *periph,
-    void (*callback)(DEV_SPI_Periph_t *, MDS_Arg_t *, const uint8_t *, uint8_t *, size_t, size_t), MDS_Arg_t *arg)
+void DEV_SPI_PeriphCallback(DEV_SPI_Periph_t *periph,
+                            void (*callback)(DEV_SPI_Periph_t *, MDS_Arg_t *, const uint8_t *,
+                                             uint8_t *, size_t, size_t),
+                            MDS_Arg_t *arg)
 {
     periph->callback = callback;
     periph->arg = arg;
@@ -110,9 +115,11 @@ MDS_Err_t DEV_SPI_PeriphTransferMsg(DEV_SPI_Periph_t *periph, const DEV_SPI_Msg_
 
         DEV_SPI_PeriphCS(periph, true);
         while (cur != NULL) {
-            MDS_Tick_t optick = (periph->object.optick > 0) ? (periph->object.optick)
-                                                            : (cur->size / ((periph->config.clock >> 0x0E) + 0x01));
-            err = spi->driver->transfer(periph, cur->tx, cur->rx, cur->size, optick);
+            MDS_Tick_t optick = (periph->object.timeout.ticks > 0)
+                                    ? (periph->object.timeout.ticks)
+                                    : (cur->size / ((periph->config.clock >> 0x0E) + 0x01));
+            err = spi->driver->transfer(periph, cur->tx, cur->rx, cur->size,
+                                        MDS_TIMEOUT_TICKS(optick));
             if (err != MDS_EOK) {
                 break;
             }
@@ -124,7 +131,8 @@ MDS_Err_t DEV_SPI_PeriphTransferMsg(DEV_SPI_Periph_t *periph, const DEV_SPI_Msg_
     return (err);
 }
 
-MDS_Err_t DEV_SPI_PeriphTransfer(DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx, size_t size)
+MDS_Err_t DEV_SPI_PeriphTransfer(DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx,
+                                 size_t size)
 {
     DEV_SPI_Msg_t msg = {
         .tx = tx,

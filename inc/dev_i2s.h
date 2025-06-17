@@ -83,16 +83,18 @@ typedef struct DEV_I2S_Config {
 } DEV_I2S_Config_t;
 
 typedef struct DEV_I2S_Object {
-    MDS_Tick_t optick;
+    MDS_Timeout_t timeout;
 } DEV_I2S_Object_t;
 
 typedef struct DEV_I2S_Adaptr DEV_I2S_Adaptr_t;
 typedef struct DEV_I2S_Periph DEV_I2S_Periph_t;
 
 typedef struct DEV_I2S_Driver {
-    MDS_Err_t (*control)(const DEV_I2S_Adaptr_t *i2s, MDS_Item_t cmd, MDS_Arg_t *arg);
-    MDS_Err_t (*transmit)(const DEV_I2S_Periph_t *periph, const uint8_t *buff, size_t len, MDS_Tick_t timeout);
-    MDS_Err_t (*receive)(const DEV_I2S_Periph_t *periph, uint8_t *buff, size_t size, size_t *recv, MDS_Tick_t timeout);
+    MDS_Err_t (*control)(const DEV_I2S_Adaptr_t *i2s, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*transmit)(const DEV_I2S_Periph_t *periph, const uint8_t *buff, size_t len,
+                          MDS_Timeout_t timeout);
+    MDS_Err_t (*receive)(const DEV_I2S_Periph_t *periph, uint8_t *buff, size_t size, size_t *recv,
+                         MDS_Timeout_t timeout);
 } DEV_I2S_Driver_t;
 
 struct DEV_I2S_Adaptr {
@@ -110,18 +112,22 @@ struct DEV_I2S_Periph {
     DEV_I2S_Object_t object;
     DEV_I2S_Config_t config;
 
-    void (*txCallback)(DEV_I2S_Periph_t *periph, MDS_Arg_t *arg, const uint8_t *buff, size_t size, size_t send);
+    void (*txCallback)(DEV_I2S_Periph_t *periph, MDS_Arg_t *arg, const uint8_t *buff, size_t size,
+                       size_t send);
     MDS_Arg_t *txArg;
 
-    void (*rxCallback)(DEV_I2S_Periph_t *periph, MDS_Arg_t *arg, uint8_t *buff, size_t size, size_t recv);
+    void (*rxCallback)(DEV_I2S_Periph_t *periph, MDS_Arg_t *arg, uint8_t *buff, size_t size,
+                       size_t recv);
     MDS_Arg_t *rxArg;
 };
 
 /* Function ---------------------------------------------------------------- */
-MDS_Err_t DEV_I2S_AdaptrInit(DEV_I2S_Adaptr_t *i2s, const char *name, const DEV_I2S_Driver_t *driver,
-                             MDS_DevHandle_t *handle, const MDS_Arg_t *init);
+MDS_Err_t DEV_I2S_AdaptrInit(DEV_I2S_Adaptr_t *i2s, const char *name,
+                             const DEV_I2S_Driver_t *driver, MDS_DevHandle_t *handle,
+                             const MDS_Arg_t *init);
 MDS_Err_t DEV_I2S_AdaptrDeInit(DEV_I2S_Adaptr_t *i2s);
-DEV_I2S_Adaptr_t *DEV_I2S_AdaptrCreate(const char *name, const DEV_I2S_Driver_t *driver, const MDS_Arg_t *init);
+DEV_I2S_Adaptr_t *DEV_I2S_AdaptrCreate(const char *name, const DEV_I2S_Driver_t *driver,
+                                       const MDS_Arg_t *init);
 MDS_Err_t DEV_I2S_AdaptrDestroy(DEV_I2S_Adaptr_t *i2s);
 
 MDS_Err_t DEV_I2S_PeriphInit(DEV_I2S_Periph_t *periph, const char *name, DEV_I2S_Adaptr_t *i2s);
@@ -129,16 +135,18 @@ MDS_Err_t DEV_I2S_PeriphDeInit(DEV_I2S_Periph_t *periph);
 DEV_I2S_Periph_t *DEV_I2S_PeriphCreate(const char *name, DEV_I2S_Adaptr_t *i2s);
 MDS_Err_t DEV_I2S_PeriphDestroy(DEV_I2S_Periph_t *periph);
 
-MDS_Err_t DEV_I2S_PeriphOpen(DEV_I2S_Periph_t *periph, MDS_Tick_t timeout);
+MDS_Err_t DEV_I2S_PeriphOpen(DEV_I2S_Periph_t *periph, MDS_Timeout_t timeout);
 MDS_Err_t DEV_I2S_PeriphClose(DEV_I2S_Periph_t *periph);
 void DEV_I2S_PeriphTxCallback(DEV_I2S_Periph_t *periph,
-                              void (*callback)(DEV_I2S_Periph_t *, MDS_Arg_t *, const uint8_t *, size_t, size_t),
+                              void (*callback)(DEV_I2S_Periph_t *, MDS_Arg_t *, const uint8_t *,
+                                               size_t, size_t),
                               MDS_Arg_t *arg);
-void DEV_I2S_PeriphRxCallback(DEV_I2S_Periph_t *periph,
-                              void (*callback)(DEV_I2S_Periph_t *, MDS_Arg_t *, uint8_t *, size_t, size_t),
-                              MDS_Arg_t *arg);
+void DEV_I2S_PeriphRxCallback(
+    DEV_I2S_Periph_t *periph,
+    void (*callback)(DEV_I2S_Periph_t *, MDS_Arg_t *, uint8_t *, size_t, size_t), MDS_Arg_t *arg);
 MDS_Err_t DEV_I2S_PeriphTransmit(DEV_I2S_Periph_t *periph, const uint8_t *buff, size_t len);
-MDS_Err_t DEV_I2S_PeriphReceive(DEV_I2S_Periph_t *periph, uint8_t *buff, size_t size, size_t *recv, MDS_Tick_t timeout);
+MDS_Err_t DEV_I2S_PeriphReceive(DEV_I2S_Periph_t *periph, uint8_t *buff, size_t size, size_t *recv,
+                                MDS_Timeout_t timeout);
 
 #ifdef __cplusplus
 }
