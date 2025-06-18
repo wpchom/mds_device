@@ -57,7 +57,7 @@ typedef struct DEV_LED_Config {
 typedef struct DEV_LED_Device DEV_LED_Device_t;
 
 typedef struct DEV_LED_Driver {
-    MDS_Err_t (*control)(const DEV_LED_Device_t *led, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*control)(const DEV_LED_Device_t *led, MDS_Item_t cmd, MDS_Arg_t *arg);
     MDS_Err_t (*light)(const DEV_LED_Device_t *led, const DEV_LED_Color_t *color,
                        const DEV_LED_Light_t *light);
 } DEV_LED_Driver_t;

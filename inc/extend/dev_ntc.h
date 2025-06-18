@@ -31,7 +31,7 @@ enum DEV_NTC_Cmd {
 
 typedef struct DEV_NTC_Device DEV_NTC_Device_t;
 typedef struct DEV_NTC_Driver {
-    MDS_Err_t (*control)(const DEV_NTC_Device_t *ntc, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*control)(const DEV_NTC_Device_t *ntc, MDS_Item_t cmd, MDS_Arg_t *arg);
 } DEV_NTC_Driver_t;
 
 struct DEV_NTC_Device {

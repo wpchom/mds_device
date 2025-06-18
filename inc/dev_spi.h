@@ -78,7 +78,7 @@ typedef struct DEV_SPI_Adaptr DEV_SPI_Adaptr_t;
 typedef struct DEV_SPI_Periph DEV_SPI_Periph_t;
 
 typedef struct DEV_SPI_Driver {
-    MDS_Err_t (*control)(const DEV_SPI_Adaptr_t *spi, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*control)(const DEV_SPI_Adaptr_t *spi, MDS_Item_t cmd, MDS_Arg_t *arg);
     MDS_Err_t (*transfer)(const DEV_SPI_Periph_t *periph, const uint8_t *tx, uint8_t *rx,
                           size_t size, MDS_Timeout_t timeout);
 } DEV_SPI_Driver_t;

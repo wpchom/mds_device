@@ -93,12 +93,12 @@ typedef struct DEV_TIMER_OC_Channel DEV_TIMER_OC_Channel_t;
 typedef struct DEV_TIMER_IC_Channel DEV_TIMER_IC_Channel_t;
 
 typedef struct DEV_TIMER_Driver {
-    MDS_Err_t (*control)(const DEV_TIMER_Device_t *timer, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*control)(const DEV_TIMER_Device_t *timer, MDS_Item_t cmd, MDS_Arg_t *arg);
     MDS_Err_t (*config)(const DEV_TIMER_Device_t *timer, const DEV_TIMER_Config_t *config,
                         MDS_Timeout_t timeout);
-    MDS_Err_t (*oc)(const DEV_TIMER_OC_Channel_t *oc, MDS_DeviceCmd_t cmd,
+    MDS_Err_t (*oc)(const DEV_TIMER_OC_Channel_t *oc, MDS_Item_t cmd,
                     const DEV_TIMER_OC_Config_t *config, size_t value);
-    MDS_Err_t (*ic)(const DEV_TIMER_IC_Channel_t *ic, MDS_DeviceCmd_t cmd,
+    MDS_Err_t (*ic)(const DEV_TIMER_IC_Channel_t *ic, MDS_Item_t cmd,
                     const DEV_TIMER_IC_Config_t *config, size_t value);
 } DEV_TIMER_Driver_t;
 

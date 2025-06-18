@@ -32,7 +32,7 @@ enum DEV_RTC_Cmd {
 };
 
 typedef struct DEV_RTC_Driver {
-    MDS_Err_t (*control)(const DEV_RTC_Device_t *rtc, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*control)(const DEV_RTC_Device_t *rtc, MDS_Item_t cmd, MDS_Arg_t *arg);
     MDS_Err_t (*timer)(const DEV_RTC_Timer_t *timer, MDS_Timeout_t timeout);
     MDS_Tick_t (*count)(const DEV_RTC_Timer_t *timer);
     MDS_Err_t (*alarm)(const DEV_RTC_Alarm_t *alarm, const MDS_TimeDate_t *tm);

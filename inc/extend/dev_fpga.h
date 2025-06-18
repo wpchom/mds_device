@@ -24,7 +24,7 @@ typedef struct DEV_FPGA_Adaptr DEV_FPGA_Adaptr_t;
 typedef struct DEV_FPGA_Periph DEV_FPGA_Periph_t;
 
 typedef struct DEV_FPGA_Driver {
-    MDS_Err_t (*control)(const DEV_FPGA_Adaptr_t *fpga, MDS_DeviceCmd_t cmd, MDS_Arg_t *arg);
+    MDS_Err_t (*control)(const DEV_FPGA_Adaptr_t *fpga, MDS_Item_t cmd, MDS_Arg_t *arg);
     MDS_Err_t (*start)(const DEV_FPGA_Periph_t *periph);
     MDS_Err_t (*transmit)(const DEV_FPGA_Periph_t *periph, const uint8_t *buff, size_t len,
                           MDS_Timeout_t timeout);
